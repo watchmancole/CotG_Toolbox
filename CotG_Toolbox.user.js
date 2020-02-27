@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Cotg Toolbox
-// @namespace https://github.com/Dkhub85/COTG-Dfunky
+// @namespace https://github.com/watchmancole/CotG_Toolbox
 // @version 1.0.4
 // @description A toolbox of helper tools for the game Crown of the Gods.
 // @author WatchmanCole, Dhruv, Cfunky
@@ -9,8 +9,8 @@
 // @match https://w19.crownofthegods.com
 // @include https://w*.crownofthegods.com/World*
 // @grant none
-// @updateURL https://raw.githubusercontent.com/DKhub85/COTG-Dfunky/master/Dfunky.user.js
-// @downloadURL https://raw.githubusercontent.com/DKhub85/COTG-Dfunky/master/Dfunky.user.js
+// @updateURL https://raw.githubusercontent.com/watchmancole/CotG_Toolbox/master/CotG_Toolbox.user.js
+// @downloadURL https://raw.githubusercontent.com/watchmancole/CotG_Toolbox/master/CotG_Toolbox.user.js
 // ==/UserScript==
 
 (function () {
