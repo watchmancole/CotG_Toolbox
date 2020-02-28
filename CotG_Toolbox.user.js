@@ -2656,7 +2656,7 @@
         var bossactive = data.info.active;
         //       var troops = cotg.city.troops();
         var home;
-        var optimalTS = Math.ceil((other_loot[lvl - 1] / 10 * ((1 - prog / 100) + 1)) * 1.05);
+        var optimalTS = Math.ceil((other_loot[lvl - 1] / 10 * ((1 - prog / 100) + 1)) * 1.06);
         if (dtype === "dungeon") {
             if ($("#cityplayerInfo div table tbody tr").length === 11) {
                 bossele();
@@ -2706,7 +2706,7 @@
             if (type === "Mountain Cavern") {
                 document.getElementById('raidDungGo').onclick = function () {
                     setTimeout(function () {
-                        var total_lootm = Math.ceil((mountain_loot[Number(lvl) - 1] * ((1 - Number(prog) / 100) + 1)) * 1.05);
+                        var total_lootm = Math.ceil((mountain_loot[Number(lvl) - 1] * ((1 - Number(prog) / 100) + 1)) * 1.06);
                         if (home_loot > total_lootm) {
                             var option_numbersm = Math.floor(home_loot / total_lootm);
                             var templ1m = ((home_loot / total_lootm) * 100) / option_numbersm;
@@ -2721,7 +2721,7 @@
                         }
                     }, 1500);
                 };
-                var optimalTSM = Math.ceil((mountain_loot[lvl - 1] / 10 * ((1 - prog / 100) + 1)) * 1.05);
+                var optimalTSM = Math.ceil((mountain_loot[lvl - 1] / 10 * ((1 - prog / 100) + 1)) * 1.06);
                 var cavoptim = Math.ceil((optimalTSM * 2) / 3);
                 var praoptim = Math.ceil(optimalTSM / 2);
                 var sorcoptim = Math.ceil(optimalTSM * 2);
@@ -2745,7 +2745,7 @@
             if (type === "Hill Cavern" || type === "Forest Cavern") {
                 document.getElementById('raidDungGo').onclick = function () {
                     setTimeout(function () {
-                        var total_looto = Math.ceil((other_loot[Number(lvl) - 1] * ((1 - Number(prog) / 100) + 1)) * 1.05);
+                        var total_looto = Math.ceil((other_loot[Number(lvl) - 1] * ((1 - Number(prog) / 100) + 1)) * 1.06);
                         if (home_loot > total_looto) {
                             var option_numbers = Math.floor(home_loot / total_looto);
                             var templ1 = ((home_loot / total_looto) * 100) / option_numbers;
