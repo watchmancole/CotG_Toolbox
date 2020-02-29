@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Cotg Toolbox
 // @namespace https://github.com/watchmancole/CotG_Toolbox
-// @version 1.0.4
+// @version 1.0.5
 // @description A toolbox of helper tools for the game Crown of the Gods.
 // @author WatchmanCole, Dhruv, Cfunky
 // @match https://w17.crownofthegods.com
@@ -189,6 +189,7 @@
                             city.x = Number(poll2.city['x']);
                             city.y = Number(poll2.city['y']);
                             city.cont = Number(poll2.city['co']);
+                            coofz = Number(poll2.city['coof']);
 //                            city.x = Number(poll2.city.cid % 65536);
 //                            city.y = Number((poll2.city.cid - city.x) / 65536);
 //                            city.cont = Number(Math.floor(city.x / 100) + 10 * Math.floor(city.y / 100));
@@ -1926,12 +1927,12 @@
             }, 100);
             if (coon == 0) {
                 coon = 1;
-                $(this).removeClass('greenb');
-                $(this).addClass('redb');
-            } else {
-                coon = 0;
                 $(this).removeClass('redb');
                 $(this).addClass('greenb');
+            } else {
+                coon = 0;
+                $(this).removeClass('greenb');
+                $(this).addClass('redb');
             }
         });
         $("#fb2").click(function () {
