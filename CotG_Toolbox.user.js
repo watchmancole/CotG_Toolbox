@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name Cotg Toolbox
 // @namespace https://github.com/watchmancole/CotG_Toolbox
-// @version 1.0.8
+// @version 1.0.9
 // @description A toolbox of helper tools for the game Crown of the Gods.
 // @author WatchmanCole, Dhruv, Cfunky
 // @match https://w17.crownofthegods.com
 // @match https://w18.crownofthegods.com
 // @match https://w19.crownofthegods.com
-// @include https://w*.crownofthegods.com/World*
+// @include https://w/*.crownofthegods.com/World*
 // @grant none
 // @updateURL https://raw.githubusercontent.com/watchmancole/CotG_Toolbox/master/CotG_Toolbox.user.js
 // @downloadURL https://raw.githubusercontent.com/watchmancole/CotG_Toolbox/master/CotG_Toolbox.user.js
@@ -15,113 +15,107 @@
 
 (function () {
     // popup message for players when they open the game.
-    var tbVersion = "1.0.8";
-    $(document).ready(function () {
-        var popwin = "<div id='HelloWorld' style='width:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">CotG_Toolbox v." + tbVersion + "</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> Cotg Toolbox (Cfunky + Dhruv's Raiding helper with fixes from WatchmanCole)</h4></span><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Adjusted troop raid count (2020-03-02)</li><li>Fixed so it would work on worlds 17, 18, 19 (2020-2-19)</li><li>Fixed Boss Gladiator from old GM Gordy (2020-2-19)</li><li>Renamed to CotG Toolbox (2020-2-19)</li></ul></span></div></div>";
-        $("body").append(popwin);
+     // var tbVersion = "1.0.9";
+    // $(function () {
+    //     var popwin = "<div id='HelloWorld' style='width:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">CotG_Toolbox v." + tbVersion + "</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> Cotg Toolbox (Cfunky + Dhruv's Raiding helper with fixes from WatchmanCole)</h4></span><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Adjusted troop raid count (2020-03-02)</li><li>Fixed so it would work on worlds 17, 18, 19 (2020-2-19)</li><li>Fixed Boss Gladiator from old GM Gordy (2020-2-19)</li><li>Renamed to CotG Toolbox (2020-2-19)</li></ul></span></div></div>";
+    //     $("body").append(popwin);
 
-        setTimeout(function () {
-            var options = {};
-            $('#HelloWorld').hide('drop', options, 2000);
-        }, 5000);
-
-
-    });
-    var ttts = [1, 10, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 10, 10, 100, 100, 400, 1]; //ts per unit
+    //     setTimeout(function () {
+    //         var options = {};
+    //         $('#HelloWorld').hide('drop', options, 2000);
+    //     }, 5000);
+    // });
+    var ttts=[1,10,1,1,1,1,1,2,2,2,2,2,10,10,100,100,400,1]; //ts per unit
     var citytc;
-    var message = "Not enough TS to kill this boss!";
-    var other_loot = [350, 1000, 4270, 15500, 32300, 56900, 117200, 198500, 297500, 441600]; //forest, hill loot
-    var mountain_loot = [350, 960, 4100, 14900, 31000, 54500, 112500, 190500, 285500, 423500];//mountain loot
-    var tpicdiv = ["guard32 trooptdcm", "bally32 trooptdcm", "ranger32 trooptdcm", "triari32 trooptdcm", "priest32 trooptdcm", "vanq32 trooptdcm", "sorc32 trooptdcm", "scout32 trooptdcm", "arbal32 trooptdcm", "praet32 trooptdcm", "horsem32 trooptdcm",
-        "druid32 trooptdcm", "ram32 trooptdcm", "scorp32 trooptdcm", "galley32 trooptdcm", "sting32 trooptdcm", "wship32 trooptdcm", "senat32 trooptdcm"];
-    var tpicdiv20 = ["guard20 trooptdcm", "bally20 trooptdcm", "ranger20 trooptdcm", "triari20 trooptdcm", "priest20 trooptdcm", "vanq20 trooptdcm", "sorc20 trooptdcm", "scout20 trooptdcm", "arbal20 trooptdcm", "praet20 trooptdcm", "horsem20 trooptdcm",
-        "druid20 trooptdcm", "ram20 trooptdcm", "scorp20 trooptdcm", "galley20 trooptdcm", "sting20 trooptdcm", "wship20 trooptdcm", "senat20 trooptdcm"];
-    var ttspeed = [0, 30, 20, 20, 20, 20, 20, 8, 10, 10, 10, 10, 30, 30, 5, 5, 5, 40];
-    var ttres = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    var ibriafaith = 0, ylannafaith = 0, naerafaith = 0, cyndrosfaith = 0, domdisfaith = 0, vexifaith = 0, meriusfaith = 0, evarafaith = 0; //alliance faiths
-    var ttspeedres = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    var TS_type = [0, 0, 1, 1, 1, 1, 1, 0, 2, 2, 2, 2, 0, 0, 0, 100, 400];
-    var Total_Combat_Research = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    var naera = 0, vexemis = 0, cyndros = 0, ylanna = 0;
-    var buildings = {
-        name: ["forester", "cottage", "storehouse", "quarry", "hideaway", "farmhouse", "cityguardhouse", "barracks", "mine", "trainingground", "marketplace", "townhouse", "sawmill", "stable", "stonemason", "mage_tower", "windmill", "temple", "smelter", "blacksmith",
-            "castle", "port", "port", "port", "shipyard", "shipyard", "shipyard", "townhall", "castle"],
-        bid: [448, 446, 464, 461, 479, 447, 504, 445, 465, 483, 449, 481, 460, 466, 462, 500, 463, 482, 477, 502, "467", 488, 489, 490, 491, 496, 498, 455, 467]
-    };
-    var sum = true;
-    var bdcountshow = true;
+    var message="Not enough TS to kill this boss!";
+    var other_loot=[350,1000,4270,15500,32300,56900,117200,198500,297500,441600]; //forest, hill loot
+    var mountain_loot=[350,960,4100,14900,31000,54500,112500,190500,285500,423500];//mountain loot
+    var tpicdiv=["guard32 trooptdcm","bally32 trooptdcm","ranger32 trooptdcm","triari32 trooptdcm","priest32 trooptdcm","vanq32 trooptdcm","sorc32 trooptdcm","scout32 trooptdcm","arbal32 trooptdcm","praet32 trooptdcm","horsem32 trooptdcm",
+        "druid32 trooptdcm","ram32 trooptdcm","scorp32 trooptdcm","galley32 trooptdcm","sting32 trooptdcm","wship32 trooptdcm","senat32 trooptdcm"];
+    var tpicdiv20=["guard20 trooptdcm","bally20 trooptdcm","ranger20 trooptdcm","triari20 trooptdcm","priest20 trooptdcm","vanq20 trooptdcm","sorc20 trooptdcm","scout20 trooptdcm","arbal20 trooptdcm","praet20 trooptdcm","horsem20 trooptdcm",
+        "druid20 trooptdcm","ram20 trooptdcm","scorp20 trooptdcm","galley20 trooptdcm","sting20 trooptdcm","wship20 trooptdcm","senat20 trooptdcm"];
+    var ttspeed=[0,30,20,20,20,20,20,8,10,10,10,10,30,30,5,5,5,40];
+    var ttres=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+    var ibriafaith=0,ylannafaith=0,naerafaith=0,cyndrosfaith=0,domdisfaith=0,vexifaith=0,meriusfaith=0,evarafaith=0; //alliance faiths
+    var ttspeedres=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+    var TS_type=[0,0,1,1,1,1,1,0,2,2,2,2,0,0,0,100,400];
+    var Total_Combat_Research=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+    var naera=0,vexemis=0,cyndros=0,ylanna=0;
+    var buildings={name: ["forester","cottage","storehouse","quarry","hideaway","farmhouse","cityguardhouse","barracks","mine","trainingground","marketplace","townhouse","sawmill","stable","stonemason","mage_tower","windmill","temple","smelter","blacksmith",
+            "castle","port","port","port","shipyard","shipyard","shipyard","townhall","castle"],
+        bid: [448,446,464,461,479,447,504,445,465,483,449,481,460,466,462,500,463,482,477,502,"467",488,489,490,491,496,498,455,467]};
+    var sum=true;
+    var bdcountshow=true;
     //    var loot=[0,400,1000,4500,15000,33000,60000,120000,201000,300000,446000]; //cavern loot per lvl
-    var bossdef = [625, 3750, 25000, 50000, 125000, 187500, 250000, 375000, 562500, 750000]; //bosses defense value
-    var bossdefw = [425, 2500, 17000, 33000, 83000, 125000, 170000, 250000, 375000, 500000]; // bosses defense value for weakness type
-    var bossmts = [6, 20, 100, 500, 2000, 3500, 5000, 8000, 12000, 15000]; //minimum TS to send to a boss
-    var numbs = [0, 0, 0];
-    var ttloot = [0, 0, 10, 20, 10, 10, 5, 0, 15, 20, 15, 10, 0, 0, 0, 1500, 3000];//troop loot
-    var ttattack = [10, 50, 30, 10, 25, 50, 70, 10, 40, 60, 90, 120, 50, 150, 3000, 1200, 12000]; //troops attack value
-    var iscav = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]; //which troop number is cav
-    var isinf = [1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //which troop number is inf
-    var ismgc = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]; //which troop number is magic
-    var isart = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]; //which troop number is artillery
-    var resbonus = [0, 0.01, 0.03, 0.06, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5]; // res bonus to attack power per res rank
-    var Res = [0, 1, 3, 6, 10, 15, 20, 25, 30, 35, 40, 45, 50];//research lvl
-    var ttname = ["Guards", "Ballistas", "Rangers", "Triari", "Priestess", "Vanquishers", "Sorcerers", "Scouts", "Arbalists", "Praetors", "Horsemans", "Druids", "Rams", "Scorpions", "Galleys", "Stingers", "Warships", "senator"];
-    var layoutsl = [""];
-    var layoutsw = [""];
-    var layoutdf = [""];
+    var bossdef=[625,3750,25000,50000,125000,187500,250000,375000,562500,750000]; //bosses defense value
+    var bossdefw=[425,2500,17000,33000,83000,125000,170000,250000,375000,500000]; // bosses defense value for weakness type
+    var bossmts=[6,20,100,500,2000,3500,5000,8000,12000,15000]; //minimum TS to send to a boss
+    var numbs=[0,0,0];
+    var ttloot=[0,0,10,20,10,10,5,0,15,20,15,10,0,0,0,1500,3000];//troop loot
+    var ttattack=[10,50,30,10,25,50,70,10,40,60,90,120,50,150,3000,1200,12000]; //troops attack value
+    var iscav=[0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0]; //which troop number is cav
+    var isinf=[1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0]; //which troop number is inf
+    var ismgc=[0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0]; //which troop number is magic
+    var isart=[0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1]; //which troop number is artillery
+    var resbonus=[0,0.01,0.03,0.06,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5]; // res bonus to attack power per res rank
+    var Res=[0,1,3,6,10,15,20,25,30,35,40,45,50];//research lvl
+    var ttname=["Guards","Ballistas","Rangers","Triari","Priestess","Vanquishers","Sorcerers","Scouts","Arbalists","Praetors","Horsemans","Druids","Rams","Scorpions","Galleys","Stingers","Warships","senator"];
+    var layoutsl=[""];
+    var layoutsw=[""];
+    var layoutdf=[""];
     var cdata; //city data return
     var wdata; //world data
     var pldata; //players list on server
     var pdata; //player data
     var poll2; //poll2data
-    var clc = {};// city lists info
+    var clc={};// city lists info
     var oga; //city outgoing attacks info
-    var city = { cid: 0, x: 0, y: 0, th: [0], cont: 0 }; //current city data
-    var bosses = {
-        name: ["Cyclops", "Andar's Colosseum Challenge", "Dragon", "Romulus and Remus", "Gorgon", "Gladiator", "Triton"],
-        pic: ["cyclops32 mauto bostooltip tooltipstered", "andar32 mauto bostooltip tooltipstered", "dragon32 mauto bostooltip tooltipstered", "romrem32 mauto bostooltip tooltipstered", "gorgon32 mauto bostooltip tooltipstered", "gmgordy32 mauto bostooltip tooltipstered", "triton32 mauto bostooltip tooltipstered"]
-    };
-    var bossinfo = { x: [], y: [], lvl: [], data: [], name: [], cont: [], distance: [] };
-    var key = "_`abcdefgh";
-    var remarksl = [""];
-    var remarksw = [""];
-    var remarkdf = [""];
-    var troopcounw = [[]];
-    var troopcound = [[]];
-    var troopcounl = [[]];
-    var resw = [[]];
-    var resd = [[]];
-    var resl = [[]];
-    var notesl = [""];
-    var notesw = [""];
-    var notedf = [""];
-    var emptyspots = ",.;:#-T";
-    var beentoworld = false;
-    var splayers = { name: [], ally: [], cities: [] };
-    var shrinec = [[]];
+    var city={cid:0,x:0,y:0,th:[0],cont:0}; //current city data
+    var bosses={name:["Cyclops","Andar's Colosseum Challenge","Dragon","Romulus and Remus","Gorgon","GM Gordy","Triton"],
+        pic:["cyclops32 mauto bostooltip tooltipstered","andar32 mauto bostooltip tooltipstered","dragon32 mauto bostooltip tooltipstered","romrem32 mauto bostooltip tooltipstered","gorgon32 mauto bostooltip tooltipstered","gmgordy32 mauto bostooltip tooltipstered","triton32 mauto bostooltip tooltipstered"]};
+    var bossinfo={x:[],y:[],lvl:[],data:[],name:[],cont:[],distance:[]};
+    var key="_`abcdefgh";
+    var remarksl=[""];
+    var remarksw=[""];
+    var remarkdf=[""];
+    var troopcounw=[[]];
+    var troopcound=[[]];
+    var troopcounl=[[]];
+    var resw=[[]];
+    var resd=[[]];
+    var resl=[[]];
+    var notesl=[""];
+    var notesw=[""];
+    var notedf=[""];
+    var emptyspots=",.;:#-T";
+    var beentoworld=false;
+    var splayers={name:[],ally:[],cities:[]};
+    var shrinec=[[]];
     var buildingdata;
-    var coonoff;
+    var coofz;
     var coon;
     //getting city lists
-    $(document).ready(function () {
-        setTimeout(function () {
-            var a = $("#organiser > option");
-            var l = a.length;
-            for (var i = 0; i < l; i++) {
-                var temp = String($(a[i]).attr("value"));
+    $(function() {
+        setTimeout(function() {
+            var a=$("#organiser > option");
+            var l=a.length;
+            for (var i=0; i<l;i++) {
+                var temp=String($(a[i]).attr("value"));
                 $("#organiser").val(temp).change();
-                clc[temp] = [];
-                var tempcl = $("#cityDropdownMenu > option");
-                var ll = tempcl.length;
-                if (cdata.cg.indexOf(temp) > -1) {
+                clc[temp]=[];
+                var tempcl=$("#cityDropdownMenu > option");
+                var ll=tempcl.length;
+                if (cdata.cg.indexOf(temp)>-1) {
                     clc[temp].push($(tempcl[0]).attr("value"));
                 }
-                if (ll > 1) {
-                    for (var j = 1; j < ll; j++) {
+                if (ll>1) {
+                    for (var j=1;j<ll;j++) {
                         clc[temp].push($(tempcl[j]).attr("value"));
                     }
                 }
             }
             $("#organiser").val("all").change();
-        }, 4000);
+        },4000);
     });
     setTimeout(function () {
         (function (open) {
@@ -130,7 +124,6 @@
                     if (this.readyState == 4) {
                         var url = this.responseURL;
                         if (url.indexOf('gC.php') != -1) {
-
                             cdata = JSON.parse(this.response);
                             city.cid = cdata.cid;
                             city.th = cdata.th;
@@ -171,34 +164,34 @@
                             makebuildcount();
                             coonvalue();
                         }
-                        if (url.indexOf('gWrd.php') != -1) {
-                            wdata = JSON.parse(this.response);
-                            beentoworld = true;
-                            wdata = decwdata(wdata.a);
+                        if (url.indexOf('gWrd.php')!=-1) {
+                            wdata=JSON.parse(this.response);
+                            beentoworld=true;
+                            wdata=decwdata(wdata.a);
                             getbossinfo();
                         }
-                        if (url.indexOf('gPlA.php') != -1) {
-                            pldata = JSON.parse(this.response);
+                        if (url.indexOf('gPlA.php')!=-1) {
+                            pldata=JSON.parse(this.response);
                         }
-                        if (url.indexOf('poll2.php') != -1) {
-                            if (poll2) {
-                                var saveclc = poll2.player.clc;
-                                var saveoga = poll2.OGA;
-                                clc = poll2.player.clc;
+                        if (url.indexOf('poll2.php')!=-1) {
+                            if(poll2) {
+                                var saveclc=poll2.player.clc;
+                                var saveoga=poll2.OGA;
+                                clc=poll2.player.clc;
                             }
-                            poll2 = JSON.parse(this.response);
-                            city.x = Number(poll2.city['x']);
-                            city.y = Number(poll2.city['y']);
-                            city.cont = Number(poll2.city['co']);
-                            coonoff = Number(poll2.city['coof']);
+                            poll2=JSON.parse(this.response);
+                            city.x=Number(poll2.city['x']);
+                            city.y=Number(poll2.city['y']);
+                            city.cont=Number(poll2.city['co']);
+                            coonoff=Number(poll2.city['coof']);
                             coonvalue();
-//                            city.x = Number(poll2.city.cid % 65536);
-//                            city.y = Number((poll2.city.cid - city.x) / 65536);
-//                            city.cont = Number(Math.floor(city.x / 100) + 10 * Math.floor(city.y / 100));
+//                            city.x=Number(poll2.city.cid % 65536);
+//                            city.y=Number((poll2.city.cid - city.x) / 65536);
+//                            city.cont=Number(Math.floor(city.x / 100) + 10 * Math.floor(city.y / 100));
                             if ('OGA' in poll2) {
 
                             } else {
-                                poll2.OGA = saveoga;
+                                poll2.OGA=saveoga;
                             }
                             if ('bd' in poll2.city) {
                                 makebuildcount();
@@ -206,19 +199,19 @@
                             if ('clc' in poll2.player) {
 
                             } else {
-                                poll2.player.clc = saveclc;
+                                poll2.player.clc=saveclc;
                             }
-                            if ($("#warcouncTabs").tabs("option", "active") == 2) {
-                                var idle = "<table id='idleunits' class='beigetablescrollp'><tbody><tr><td style='text-align: center;'><span>Idle troops:</span></td>";
+                            if ($("#warcouncTabs").tabs("option", "active")==2) {
+                                var idle="<table id='idleunits' class='beigetablescrollp'><tbody><tr><td style='text-align: center;'><span>Idle troops:</span></td>";
                                 for (var i in poll2.city.th) {
-                                    var notallow = [0, 1, 7, 12, 13];
-                                    if (notallow.indexOf(i) == -1) {
-                                        if (poll2.city.th[i] > 0) {
-                                            idle += "<td><div class='" + tpicdiv[i] + "' style='text-align: right;'></div></td><td style='text-align: left;'><span id='thbr" + i + "' style='text-align: left;'>" + poll2.city.th[i] + "</span></td>";
+                                    var notallow=[0,1,7,12,13];
+                                    if (notallow.indexOf(i)==-1) {
+                                        if (poll2.city.th[i]>0) {
+                                            idle+="<td><div class='"+tpicdiv[i]+"' style='text-align: right;'></div></td><td style='text-align: left;'><span id='thbr"+i+"' style='text-align: left;'>"+poll2.city.th[i]+"</span></td>";
                                         }
                                     }
                                 }
-                                idle += "</tbody></table>";
+                                idle+="</tbody></table>";
                                 $("#idletroops").html(idle);
                             }
                         }
@@ -227,10 +220,10 @@
                 open.apply(this, arguments);
             };
         })(XMLHttpRequest.prototype.open);
-    }, 4000);
+    },4000);
     //decoding world data in the new format
     function decwdata(data) {
-        var DecData = { bosses: [], cities: [], ll: [], cavern: [], portals: [], shrines: [] },
+        var DecData = {bosses:[],cities:[],ll:[],cavern:[],portals:[],shrines:[]},
             temp = data.split("|"),
             keys = temp[1].split("l"),
             ckey = keys[0],
@@ -248,32 +241,32 @@
             dat = 0;
         for (var i in bosses) {
             dat = (Number(bosses[i]) + Number(bkey)) + "";
-            bkey = dat;
+            bkey=dat;
             DecData.bosses.push("1" + dat);
         }
         for (var i in cities) {
             dat = (Number(cities[i]) + Number(ckey)) + "";
-            ckey = dat;
+            ckey=dat;
             DecData.cities.push("2" + dat);
         }
         for (var i in lawless) {
             dat = (Number(lawless[i]) + Number(lkey)) + "";
-            lkey = dat;
+            lkey=dat;
             DecData.ll.push("3" + dat);
         }
         for (var i in caverns) {
             dat = (Number(caverns[i]) + Number(cavkey)) + "";
-            cavkey = dat;
+            cavkey=dat;
             DecData.cavern.push("7" + dat);
         }
         for (var i in portals) {
             dat = (Number(portals[i]) + Number(pkey)) + "";
-            pkey = dat;
+            pkey=dat;
             DecData.portals.push("8" + dat);
         }
         for (var i in shrines) {
-            dat = (Number(shrines[i]) + Number(skey)) + "";
-            skey = dat;
+            dat = (Number(shrines[i]) + Number(skey))+ "";
+            skey=dat;
             DecData.shrines.push("9" + dat);
         }
         return DecData;
@@ -308,22 +301,22 @@
         var errmBR=0;
         var message="Error, you need at least ";*/
 
-    var errz = 0;
+    var errz=0;
     function errorgo(j) {
         var errormsgs;
-        errz = errz + 1;
-        var b = 'errBR' + errz;
-        var c = '#' + b;
-        var d = '#' + b + ' div';
-        errormsgs = '<tr ID = "' + b + '"><td><div class = "errBR">' + j + '<div></td></tr>';
+        errz = errz+1;
+        var b = 'errBR' +errz;
+        var c = '#' +b;
+        var d = '#' +b+ ' div';
+        errormsgs = '<tr ID = "' +b+ '"><td><div class = "errBR">' +j+ '<div></td></tr>';
         $("#errorBRpopup").append(errormsgs);
         $(c).show();
         $(d).animate({ opacity: 1, bottom: "+10px" }, 'slow');
-        setTimeout(function () {
+        setTimeout(function(){
             $(d).animate({ opacity: 0, bottom: "-10px" }, 'slow');
             $(c).fadeOut("slow");
         }, 5000);
-        setTimeout(function () {
+        setTimeout(function(){
             $(c).remove();
         }, 6000);
     }
@@ -338,226 +331,224 @@
            errormsgBR(c, d);
        }
        */
-    String.prototype.replaceAt = function (index, char) {
+    String.prototype.replaceAt=function(index, char) {
         var a = this.split("");
         a[index] = char;
         return a.join("");
     };
-    String.prototype.decrypt = function () {
-        var a = this;
+    String.prototype.decrypt=function() {
+        var a=this;
         for (var i in a) {
             for (var j in key) {
-                if (a.charAt(i) == key.charAt(j)) {
-                    a = a.replaceAt(i, j);
+                if (a.charAt(i)==key.charAt(j)) {
+                    a=a.replaceAt(i,j);
                 }
             }
         }
         return a;
     };
     //getting faith and research bonuses, attack,defence,boss tabs
-    $(document).ready(function () {
-        jQuery.ajax({
-            url: 'includes/gaLoy.php', type: 'POST', aysnc: false,
-            success: function (data) {
-                var ldata = JSON.parse(data);
+    $(document).ready(function() {
+        jQuery.ajax({url: 'includes/gaLoy.php',type: 'POST',aysnc:false,
+            success: function(data) {
+                var ldata=JSON.parse(data);
                 setloyal(ldata);
             }
         });
         var reslvl;
         function setloyal(ldata) {
-            var faith = 0;
+            var faith=0;
             //domdis
-            $.each(ldata.t, function (key, value) {
-                if (key == 1) {
-                    $.each(this, function (key, value) {
-                        evarafaith += this.f;
+            $.each(ldata.t, function(key, value) {
+                if (key==1) {
+                    $.each(this, function(key, value) {
+                        evarafaith+=this.f;
                     });
                 }
-                if (key == 2) {
-                    $.each(this, function (key, value) {
-                        vexifaith += this.f;
+                if (key==2) {
+                    $.each(this, function(key, value) {
+                        vexifaith+=this.f;
                     });
                 }
-                if (key == 3) {
-                    $.each(this, function (key, value) {
-                        domdisfaith += this.f;
+                if (key==3) {
+                    $.each(this, function(key, value) {
+                        domdisfaith+=this.f;
                     });
                 }
-                if (key == 4) {
-                    $.each(this, function (key, value) {
-                        cyndrosfaith += this.f;
+                if (key==4) {
+                    $.each(this, function(key, value) {
+                        cyndrosfaith+=this.f;
                     });
                 }
-                if (key == 5) {
-                    $.each(this, function (key, value) {
-                        meriusfaith += this.f;
+                if (key==5) {
+                    $.each(this, function(key, value) {
+                        meriusfaith+=this.f;
                     });
                 }
-                if (key == 6) {
-                    $.each(this, function (key, value) {
-                        ylannafaith += this.f;
+                if (key==6) {
+                    $.each(this, function(key, value) {
+                        ylannafaith+=this.f;
                     });
                 }
-                if (key == 7) {
-                    $.each(this, function (key, value) {
-                        ibriafaith += this.f;
+                if (key==7) {
+                    $.each(this, function(key, value) {
+                        ibriafaith+=this.f;
                     });
                 }
-                if (key == 8) {
-                    $.each(this, function (key, value) {
-                        naerafaith += this.f;
+                if (key==8) {
+                    $.each(this, function(key, value) {
+                        naerafaith+=this.f;
                     });
                 }
             });
-            ylannafaith = Math.min(ylannafaith, 100);
-            naerafaith = Math.min(naerafaith, 100);
-            vexifaith = Math.min(vexifaith, 100);
-            cyndrosfaith = Math.min(cyndrosfaith, 100);
-            domdisfaith = Math.min(domdisfaith, 100);
-            ibriafaith = Math.min(ibriafaith, 100);
-            evarafaith = Math.min(evarafaith, 100);
-            meriusfaith = Math.min(meriusfaith, 100);
-            var research = cotg.player.research();
+            ylannafaith=Math.min(ylannafaith,100);
+            naerafaith=Math.min(naerafaith,100);
+            vexifaith=Math.min(vexifaith,100);
+            cyndrosfaith=Math.min(cyndrosfaith,100);
+            domdisfaith=Math.min(domdisfaith,100);
+            ibriafaith=Math.min(ibriafaith,100);
+            evarafaith=Math.min(evarafaith,100);
+            meriusfaith=Math.min(meriusfaith,100);
+            var research= cotg.player.research();
             //attack power faith bonuses
-            setTimeout(function () {
-                ttres[0] += ((Number(naerafaith) * 0.5) / 100) + (Number(Res[research[29]]) / 100);//guards
-                ttres[1] += ((Number(naerafaith) * 0.5) / 100) + (Number(Res[research[42]]) / 100);//ballista
-                ttres[2] += ((Number(naerafaith) * 0.5) / 100) + (Number(Res[research[30]]) / 100);//ranger
-                ttres[3] += ((Number(naerafaith) * 0.5) / 100) + (Number(Res[research[31]]) / 100);//triari
-                ttres[4] += ((Number(naerafaith) * 0.5) / 100) + (Number(Res[research[32]]) / 100);//priestess
-                ttres[5] += ((Number(vexifaith) * 0.5) / 100) + (Number(Res[research[33]]) / 100);//vanq
-                ttres[6] += ((Number(vexifaith) * 0.5) / 100) + (Number(Res[research[34]]) / 100);//sorc
-                ttres[7] += ((Number(vexifaith) * 0.5) / 100) + (Number(Res[research[46]]) / 100);//scout
-                ttres[8] += ((Number(naerafaith) * 0.5) / 100) + (Number(Res[research[35]]) / 100);//arb
-                ttres[9] += ((Number(naerafaith) * 0.5) / 100) + (Number(Res[research[36]]) / 100);//pra
-                ttres[10] += ((Number(vexifaith) * 0.5) / 100) + (Number(Res[research[37]]) / 100);//horse
-                ttres[11] += ((Number(vexifaith) * 0.5) / 100) + (Number(Res[research[38]]) / 100);//druid
-                ttres[12] += ((Number(cyndrosfaith) * 0.5) / 100) + (Number(Res[research[39]]) / 100);//ram
-                ttres[13] += ((Number(cyndrosfaith) * 0.5) / 100) + (Number(Res[research[41]]) / 100);//scorp
-                ttres[14] += ((Number(ylannafaith) * 0.5) / 100) + (Number(Res[research[44]]) / 100);//galley
-                ttres[15] += ((Number(ylannafaith) * 0.5) / 100) + (Number(Res[research[43]]) / 100);//stinger
-                ttres[16] += ((Number(cyndrosfaith) * 0.5) / 100) + (Number(Res[research[45]]) / 100);//warship
+            setTimeout(function() {
+                ttres[0]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[29]])/100);//guards
+                ttres[1]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[42]])/100);//ballista
+                ttres[2]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[30]])/100);//ranger
+                ttres[3]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[31]])/100);//triari
+                ttres[4]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[32]])/100);//priestess
+                ttres[5]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[33]])/100);//vanq
+                ttres[6]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[34]])/100);//sorc
+                ttres[7]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[46]])/100);//scout
+                ttres[8]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[35]])/100);//arb
+                ttres[9]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[36]])/100);//pra
+                ttres[10]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[37]])/100);//horse
+                ttres[11]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[38]])/100);//druid
+                ttres[12]+=((Number(cyndrosfaith)*0.5)/100)+(Number(Res[research[39]])/100);//ram
+                ttres[13]+=((Number(cyndrosfaith)*0.5)/100)+(Number(Res[research[41]])/100);//scorp
+                ttres[14]+=((Number(ylannafaith)*0.5)/100)+(Number(Res[research[44]])/100);//galley
+                ttres[15]+=((Number(ylannafaith)*0.5)/100)+(Number(Res[research[43]])/100);//stinger
+                ttres[16]+=((Number(cyndrosfaith)*0.5)/100)+(Number(Res[research[45]])/100);//warship
                 //faith travel speed bonuses
-                ttspeedres[1] += ((Number(domdisfaith) * 0.5) / 100) + (Number(Res[research[12]]) / 100);
-                ttspeedres[2] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[8]]) / 100);
-                ttspeedres[3] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[8]]) / 100);
-                ttspeedres[4] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[8]]) / 100);
-                ttspeedres[5] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[8]]) / 100);
-                ttspeedres[6] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[8]]) / 100);
-                ttspeedres[7] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[11]]) / 100);
-                ttspeedres[8] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[9]]) / 100);
-                ttspeedres[9] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[9]]) / 100);
-                ttspeedres[10] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[9]]) / 100);
-                ttspeedres[11] += ((Number(ibriafaith) * 0.5) / 100) + (Number(Res[research[9]]) / 100);
-                ttspeedres[12] += ((Number(domdisfaith) * 0.5) / 100) + (Number(Res[research[12]]) / 100);
-                ttspeedres[13] += ((Number(domdisfaith) * 0.5) / 100) + (Number(Res[research[12]]) / 100);
-                ttspeedres[14] += ((Number(domdisfaith) * 0.5) / 100) + (Number(Res[research[13]]) / 100);
-                ttspeedres[15] += ((Number(domdisfaith) * 0.5) / 100) + (Number(Res[research[13]]) / 100);
-                ttspeedres[16] += ((Number(domdisfaith) * 0.5) / 100) + (Number(Res[research[13]]) / 100);
-                ttspeedres[17] += ((Number(domdisfaith) * 0.5) / 100) + (Number(Res[research[14]]) / 100);
-            }, 2000);
+                ttspeedres[1]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[12]])/100);
+                ttspeedres[2]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+                ttspeedres[3]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+                ttspeedres[4]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+                ttspeedres[5]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+                ttspeedres[6]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+                ttspeedres[7]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[11]])/100);
+                ttspeedres[8]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[9]])/100);
+                ttspeedres[9]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[9]])/100);
+                ttspeedres[10]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[9]])/100);
+                ttspeedres[11]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[9]])/100);
+                ttspeedres[12]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[12]])/100);
+                ttspeedres[13]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[12]])/100);
+                ttspeedres[14]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[13]])/100);
+                ttspeedres[15]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[13]])/100);
+                ttspeedres[16]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[13]])/100);
+                ttspeedres[17]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[14]])/100);
+            },2000);
         }
-        jQuery.ajax({
-            url: 'includes/pD.php', type: 'POST', aysnc: false,
-            success: function (data) {
-                pdata = JSON.parse(data);
+        jQuery.ajax({url: 'includes/pD.php',type: 'POST',aysnc:false,
+            success: function(data) {
+                pdata=JSON.parse(data);
             }
         });
-        setTimeout(function () {
-            var cid = $("#cityDropdownMenu").val();
-            var dat = { a: cid };
-            jQuery.ajax({ url: 'includes/gC.php', type: 'POST', aysnc: false, data: dat });
-        }, 5000);
+        setTimeout(function(){
+            var cid=$("#cityDropdownMenu").val();
+            var dat={a:cid};
+            jQuery.ajax({url: 'includes/gC.php',type: 'POST',aysnc:false, data: dat});
+        },5000);
         //buttons
-        var returnAllbut = "<button id='returnAllb' style='right: 35.6%; margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Return All</button>";
-        var raidbossbut = "<button id='raidbossGo' style='left: 65%;margin-left: 10px;margin-top: 15px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Locate Bosses</button>";
-        var attackbut = "<button id='attackGo' style='margin-left: 25px;margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Attack Sender</button>";
-        var defbut = "<button id='defGo' style='left: 65%;margin-left: 10px;margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Defense Sender</button>";
-        var quickdefbut = "<button id='quickdefCityGo' style='width:96%; margin-top:2%; margin-left:2%;' class='regButton greenbuttonGo greenb'>@ Quick Reinforcements @</button>";
-        var neardefbut = "<button id='ndefGo' style='left: 4%;margin-left: 3px;margin-top: 95px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'> Nearest Defense</button>";
-        var nearoffbut = "<button id='noffGo' style='right: 35.6%; margin-top: 95px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'> Offensive list</button>";
-        var addtoatt = "<button id='addtoAtt' style='margin-left: 7%;margin-top: -5%;width: 40%;height: 26px !important; font-size: 9px !important;' class='regButton greenb'>Add to Attack Sender</button>";
-        var addtodef = "<button id='addtoDef' style='margin-left: 7%;width: 40%;height: 26px !important; font-size: 9px !important;' class='regButton greenb'>Add to Defense Sender</button>";
+        var returnAllbut="<button id='returnAllb' style='right: 35.6%; margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Return All</button>";
+        var raidbossbut="<button id='raidbossGo' style='left: 65%;margin-left: 10px;margin-top: 15px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Locate Bosses</button>";
+        var attackbut="<button id='attackGo' style='margin-left: 25px;margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Attack Sender</button>";
+        var defbut="<button id='defGo' style='left: 65%;margin-left: 10px;margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Defense Sender</button>";
+        var quickdefbut="<button id='quickdefCityGo' style='width:96%; margin-top:2%; margin-left:2%;' class='regButton greenbuttonGo greenb'>@ Quick Reinforcements @</button>";
+        var neardefbut="<button id='ndefGo' style='left: 4%;margin-left: 3px;margin-top: 95px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'> Nearest Defense</button>";
+        var nearoffbut="<button id='noffGo' style='right: 35.6%; margin-top: 95px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'> Offensive list</button>";
+        var addtoatt="<button id='addtoAtt' style='margin-left: 7%;margin-top: -5%;width: 40%;height: 26px !important; font-size: 9px !important;' class='regButton greenb'>Add to Attack Sender</button>";
+        var addtodef="<button id='addtoDef' style='margin-left: 7%;width: 40%;height: 26px !important; font-size: 9px !important;' class='regButton greenb'>Add to Defense Sender</button>";
         //bosstab
-        var bosstab = "<li id='bosshuntab' class='ui-state-default ui-corner-top' role='tab' tabindex='-1' aria-controls='warBossmanager'";
-        bosstab += "aria-labeledby='ui-id-20' aria-selected='false' aria-expanded='false'>";
-        bosstab += "<a href='#warBossmanager' class='ui-tabs-anchor' role='presentation' tabindex='-1' id='ui-id-20'>Find Bosses</a></li>";
-        var bosstabbody = "<div id='warBossmanager' aria-labeledby='ui-id-20' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
-        bosstabbody += " role='tabpanel' aria-hidden='true' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >CFunky's Boss Raiding tool:</div>";
-        bosstabbody += "<div id='bossbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
-        bosstabbody += "<div id='idletroops'></div></div>";
+        var bosstab="<li id='bosshuntab' class='ui-state-default ui-corner-top' role='tab' tabindex='-1' aria-controls='warBossmanager'";
+        bosstab+="aria-labeledby='ui-id-20' aria-selected='false' aria-expanded='false'>";
+        bosstab+="<a href='#warBossmanager' class='ui-tabs-anchor' role='presentation' tabindex='-1' id='ui-id-20'>Find Bosses</a></li>";
+        var bosstabbody="<div id='warBossmanager' aria-labeledby='ui-id-20' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
+        bosstabbody+=" role='tabpanel' aria-hidden='true' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >CFunky's Boss Raiding tool:</div>";
+        bosstabbody+="<div id='bossbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
+        bosstabbody+="<div id='idletroops'></div></div>";
         //attack tab
-        var attacktab = "<li id='attacktab' class='ui-state-default ui-corner-top' role='tab' tabindex='-1' aria-controls='warAttackmanager'";
-        attacktab += "aria-labeledby='ui-id-21' aria-selected='false' aria-expanded='false'>";
-        attacktab += "<a href='#warAttackmanager' class='ui-tabs-anchor' role='presentation' tabindex='-1' id='ui-id-21'>Attack</a></li>";
+        var attacktab="<li id='attacktab' class='ui-state-default ui-corner-top' role='tab' tabindex='-1' aria-controls='warAttackmanager'";
+        attacktab+="aria-labeledby='ui-id-21' aria-selected='false' aria-expanded='false'>";
+        attacktab+="<a href='#warAttackmanager' class='ui-tabs-anchor' role='presentation' tabindex='-1' id='ui-id-21'>Attack</a></li>";
         //attack body
-        var attacktabbody = "<div id='warAttackmanager' aria-labeledby='ui-id-21' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
-        attacktabbody += " role='tabpanel' aria-hidden='true' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >Attack Sender:</div>";
-        attacktabbody += "<div id='attackbox' class='beigemenutable scroll-pane' style='width: 53%; height: 50%; float:left; margin-left: 1%; margin-right: 1%;'>";
-        attacktabbody += "<table><thead><th></th><th>X</th><th>Y</th><th>Type</th></thead><tbody>";
-        for (var i = 1; i < 16; i++) {
-            attacktabbody += "<tr><td>Target " + i + " </td><td><input id='t" + i + "x' type='number' style='width: 85%'></td><td><input id='t" + i + "y' type='number' style='width: 85%'></td>";
-            attacktabbody += "<td><select id='type" + i + "' class='greensel' style='font-size: 15px !important;width:95%;height:30px;'><option value='0'>Fake</option><option value='1'>Real</option></select></td></tr>";
+        var attacktabbody="<div id='warAttackmanager' aria-labeledby='ui-id-21' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
+        attacktabbody+=" role='tabpanel' aria-hidden='true' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >Attack Sender:</div>";
+        attacktabbody+="<div id='attackbox' class='beigemenutable scroll-pane' style='width: 53%; height: 50%; float:left; margin-left: 1%; margin-right: 1%;'>";
+        attacktabbody+="<table><thead><th></th><th>X</th><th>Y</th><th>Type</th></thead><tbody>";
+        for (var i=1;i<16;i++) {
+            attacktabbody+="<tr><td>Target "+i+" </td><td><input id='t"+i+"x' type='number' style='width: 85%'></td><td><input id='t"+i+"y' type='number' style='width: 85%'></td>";
+            attacktabbody+="<td><select id='type"+i+"' class='greensel' style='font-size: 15px !important;width:95%;height:30px;'><option value='0'>Fake</option><option value='1'>Real</option></select></td></tr>";
         }
-        attacktabbody += "</tbody></table></div>";
-        attacktabbody += "<div id='picktype' class='beigemenutable scroll-pane' style='width: 43%; height: 50%;'></div>";
-        attacktabbody += "<table><tr><td><span>Use percentage of troops:</span></td><td><input id='perc' type='number' style='width: 30px'>%</td><td></td></tr>";
-        attacktabbody += "<tr><td><span>Send real as:</span></td><td><select id='realtype' class='greensel' style='font-size: 15px !important;width:95%;height:30px;'>";
-        attacktabbody += "<option value='0'>Assault</option><option value='1'>Siege</option><option value='2'>Plunder</option><option value='3'>Scout</option></select></td><td></td></tr>";
-        attacktabbody += "<tr><td><span>Send fake as:</span></td><td><select id='faketype' class='greensel' style='font-size: 15px !important;width:95%;height:30px;'>";
-        attacktabbody += "<option value='0'>Assault</option><option value='1'>Siege</option><option value='2'>Plunder</option><option value='3'>Scout</option></select></td><td></td></tr>";
-        attacktabbody += "<tr><td><input id='retcheck' class='clsubopti' type='checkbox' checked> Return all Troops</td><td colspan=2><input id='retHr' type='number' style='width: 20px' value='2'> Hours before attack</td></tr>";
-        attacktabbody += "<tr><td><input id='scoutick' class='clsubopti' type='checkbox' checked>30galleys/1scout fake</td></tr></table>";
-        attacktabbody += "<table style='width:96%;margin-left:2%'><thead><tr style='text-align:center;'><th></th><th>Hr</th><th>Min</th><th>Sec</th><th colspan='2'>Date</th></tr>";
-        attacktabbody += "<tr><td>Set Time: </td><td><input id='attackHr' type='number' style='width: 35px;height: 22px;font-size: 10px;' value='10'></td><td><input id='attackMin' style='width: 35px;height: 22px;font-size: 10px;' type='number' value='00'></td>";
-        attacktabbody += "<td><input style='width: 35px;height: 22px;font-size: 10px;' id='attackSec' type='number' value='00'></td><td colspan='2'><input style='width:90px;' id='attackDat' type='text' value='00/00/0000'></td></tr></tbody></table>";
-        attacktabbody += "<table style='margin-left: 10%; margin-top:20px;'><tbody><tr><td style='width: 20%'><button id='Attack' style='width: 95%;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Attack!</button></td>";
-        attacktabbody += "<td style='width: 20%'><button id='Aexport' style='width: 95%;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Export Order</button></td>";
-        attacktabbody += "<td style='width: 20%'><button id='Aimport' style='width: 95%;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Import Order</button></td></tr></tbody></table>";
+        attacktabbody+="</tbody></table></div>";
+        attacktabbody+="<div id='picktype' class='beigemenutable scroll-pane' style='width: 43%; height: 50%;'></div>";
+        attacktabbody+="<table><tr><td><span>Use percentage of troops:</span></td><td><input id='perc' type='number' style='width: 30px'>%</td><td></td></tr>";
+        attacktabbody+="<tr><td><span>Send real as:</span></td><td><select id='realtype' class='greensel' style='font-size: 15px !important;width:95%;height:30px;'>";
+        attacktabbody+="<option value='0'>Assault</option><option value='1'>Siege</option><option value='2'>Plunder</option><option value='3'>Scout</option></select></td><td></td></tr>";
+        attacktabbody+="<tr><td><span>Send fake as:</span></td><td><select id='faketype' class='greensel' style='font-size: 15px !important;width:95%;height:30px;'>";
+        attacktabbody+="<option value='0'>Assault</option><option value='1'>Siege</option><option value='2'>Plunder</option><option value='3'>Scout</option></select></td><td></td></tr>";
+        attacktabbody+="<tr><td><input id='retcheck' class='clsubopti' type='checkbox' checked> Return all Troops</td><td colspan=2><input id='retHr' type='number' style='width: 20px' value='2'> Hours before attack</td></tr>";
+        attacktabbody+="<tr><td><input id='scoutick' class='clsubopti' type='checkbox' checked>30galleys/1scout fake</td></tr></table>";
+        attacktabbody+="<table style='width:96%;margin-left:2%'><thead><tr style='text-align:center;'><th></th><th>Hr</th><th>Min</th><th>Sec</th><th colspan='2'>Date</th></tr>";
+        attacktabbody+="<tr><td>Set Time: </td><td><input id='attackHr' type='number' style='width: 35px;height: 22px;font-size: 10px;' value='10'></td><td><input id='attackMin' style='width: 35px;height: 22px;font-size: 10px;' type='number' value='00'></td>";
+        attacktabbody+="<td><input style='width: 35px;height: 22px;font-size: 10px;' id='attackSec' type='number' value='00'></td><td colspan='2'><input style='width:90px;' id='attackDat' type='text' value='00/00/0000'></td></tr></tbody></table>";
+        attacktabbody+="<table style='margin-left: 10%; margin-top:20px;'><tbody><tr><td style='width: 20%'><button id='Attack' style='width: 95%;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Attack!</button></td>";
+        attacktabbody+="<td style='width: 20%'><button id='Aexport' style='width: 95%;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Export Order</button></td>";
+        attacktabbody+="<td style='width: 20%'><button id='Aimport' style='width: 95%;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Import Order</button></td></tr></tbody></table>";
         // defend tab
-        var deftab = "<li id='deftab' class='ui-state-default ui-corner-top' role='tab' tabindex='-1' aria-controls='warDefmanager'";
-        deftab += "aria-labeledby='ui-id-22' aria-selected='false' aria-expanded='false'>";
-        deftab += "<a href='#warDefmanager' class='ui-tabs-anchor' role='presentation' tabindex='-1' id='ui-id-22'>Defend</a></li>";
+        var deftab="<li id='deftab' class='ui-state-default ui-corner-top' role='tab' tabindex='-1' aria-controls='warDefmanager'";
+        deftab+="aria-labeledby='ui-id-22' aria-selected='false' aria-expanded='false'>";
+        deftab+="<a href='#warDefmanager' class='ui-tabs-anchor' role='presentation' tabindex='-1' id='ui-id-22'>Defend</a></li>";
         //defense body
-        var deftabbbody = "<div id='warDefmanager' aria-labeledby='ui-id-21' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
-        deftabbbody += " role='tabpanel' aria-hidden='true' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >Defense Sender:</div>";
-        deftabbbody += "<div><p style='font-size: 10px;'>Defense sender will split all the troops you choose to send according to the number of targets you input.</p></div>";
-        deftabbbody += "<div id='defbox' class='beigemenutable scroll-pane' style='width: 53%; height: 50%; float:left; margin-left: 1%; margin-right: 1%;'>";
-        deftabbbody += "<table><thead><th></th><th>X</th><th>Y</th></thead><tbody>";
-        for (var i = 1; i < 15; i++) {
-            deftabbbody += "<tr><td>Target " + i + " </td><td><input id='d" + i + "x' type='number' style='width: 85%'></td><td><input id='d" + i + "y' type='number' style='width: 85%'></td></tr>";
+        var deftabbbody="<div id='warDefmanager' aria-labeledby='ui-id-21' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
+        deftabbbody+=" role='tabpanel' aria-hidden='true' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >Defense Sender:</div>";
+        deftabbbody+="<div><p style='font-size: 10px;'>Defense sender will split all the troops you choose to send according to the number of targets you input.</p></div>";
+        deftabbbody+="<div id='defbox' class='beigemenutable scroll-pane' style='width: 53%; height: 50%; float:left; margin-left: 1%; margin-right: 1%;'>";
+        deftabbbody+="<table><thead><th></th><th>X</th><th>Y</th></thead><tbody>";
+        for (var i=1;i<15;i++) {
+            deftabbbody+="<tr><td>Target "+i+" </td><td><input id='d"+i+"x' type='number' style='width: 85%'></td><td><input id='d"+i+"y' type='number' style='width: 85%'></td></tr>";
         }
-        deftabbbody += "</tbody></table></div>";
-        deftabbbody += "<div id='dpicktype' class='beigemenutable scroll-pane' style='width: 43%; height: 50%;'></div>";
-        deftabbbody += "<table><tr><td><span>Use percentage of troops:</span></td><td><input id='defperc' type='number' style='width: 30px'>%</td><td></td></tr>";
-        deftabbbody += "<tr><td><span>Select Departure:</span></td><td><select id='defdeparture' class='greensel' style='font-size: 15px !important;width:95%;height:30px;'>";
-        deftabbbody += "<option value='0'>Now</option><option value='1'>Departure time</option><option value='2'>Arrival time</option></select></td><td></td></tr>";
-        deftabbbody += "<tr id='dret'><td><input id='dretcheck' class='clsubopti' type='checkbox' checked> Return all Troops</td><td colspan=2><input id='dretHr' type='number' style='width: 20px' value='2'> Hours before departure</td></tr></table>";
-        deftabbbody += "<table id='deftime' style='width:96%;margin-left:2%'><thead><tr style='text-align:center;'><th></th><th>Hr</th><th>Min</th><th>Sec</th><th colspan='2'>Date</th></tr>";
-        deftabbbody += "<tr><td>Set Time: </td><td><input id='defHr' type='number' style='width: 35px;height: 22px;font-size: 10px;' value='10'></td><td><input id='defMin' style='width: 35px;height: 22px;font-size: 10px;' type='number' value='00'></td>";
-        deftabbbody += "<td><input style='width: 35px;height: 22px;font-size: 10px;' id='defSec' type='number' value='00'></td><td colspan='2'><input style='width:90px;' id='defDat' type='text' value='00/00/0000'></td></tr></tbody></table>";
-        deftabbbody += "<button id='Defend' style='width: 35%;height: 30px; font-size: 12px; margin:10px;' class='regButton greenb'>Send Defense</button>";
-        var ndeftab = "<li id='neardeftab' class='ui-state-default ui-corner-top' role='tab'>";
-        ndeftab += "<a href='#warNdefmanager' class='ui-tabs-anchor' role='presentation'>Near Def</a></li>";
-        var ndeftabbody = "<div id='warNdefmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
-        ndeftabbody += " role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >Nearest defense:</div>";
-        ndeftabbody += "<table><td>Choose city:</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='ndefx' type='number'> : <input style='width: 30px;height: 22px;font-size: 10px;' id='ndefy' type='number'></td>";
-        ndeftabbody += "<td>Showing For:</td><td id='asdfgh' class='coordblink shcitt'></td>";
-        ndeftabbody += "<td><button class='regButton greenb' id='ndefup' style='height:30px; width:70px;'>Update</button></td></table>";
-        ndeftabbody += "<div id='Ndefbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
-        var nofftab = "<li id='nearofftab' class='ui-state-default ui-corner-top' role='tab'>";
-        nofftab += "<a href='#warNoffmanager' class='ui-tabs-anchor' role='presentation'>Offensive TS</a></li>";
-        var nofftabbody = "<div id='warNoffmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
-        nofftabbody += " role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >ALL Offensive TS:</div>";
-        nofftabbody += "<table><td colspan='2'> Continent(99 for navy):</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='noffx' type='number' value='0'>";
-        nofftabbody += "<td><button class='regButton greenb' id='noffup' style='height:30px; width:70px;'>Update</button></td>";
-        nofftabbody += "<td id='asdfg' style='width:10% !important;'></td><td><button class='regButton greenb' id='mailoff' style='height:30px; width:50px;'>Mail</button></td><td><input style='width: 100px;height: 22px;font-size: 10px;' id='mailname' type='text' value='Name_here;'></table>"
-        nofftabbody += "<div id='Noffbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
-        var expwin = "<div id='ExpImp' style='width:250px;height:200px;' class='popUpBox ui-draggable'><div class=\"popUpBar\"><span class=\"ppspan\">Import/Export attack orders</span>";
-        expwin += "<button id=\"cfunkyX\" onclick=\"$('#ExpImp').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='expbody' class=\"popUpWindow\">";
-        expwin += "<textarea style='font-size:11px;width:97%;margin-left:1%;height:17%;' id='expstring' maxlength='200'></textarea><button id='applyExp' style='margin-left: 15px; width: 100px;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Apply</button></div></div>";
+        deftabbbody+="</tbody></table></div>";
+        deftabbbody+="<div id='dpicktype' class='beigemenutable scroll-pane' style='width: 43%; height: 50%;'></div>";
+        deftabbbody+="<table><tr><td><span>Use percentage of troops:</span></td><td><input id='defperc' type='number' style='width: 30px'>%</td><td></td></tr>";
+        deftabbbody+="<tr><td><span>Select Departure:</span></td><td><select id='defdeparture' class='greensel' style='font-size: 15px !important;width:95%;height:30px;'>";
+        deftabbbody+="<option value='0'>Now</option><option value='1'>Departure time</option><option value='2'>Arrival time</option></select></td><td></td></tr>";
+        deftabbbody+="<tr id='dret'><td><input id='dretcheck' class='clsubopti' type='checkbox' checked> Return all Troops</td><td colspan=2><input id='dretHr' type='number' style='width: 20px' value='2'> Hours before departure</td></tr></table>";
+        deftabbbody+="<table id='deftime' style='width:96%;margin-left:2%'><thead><tr style='text-align:center;'><th></th><th>Hr</th><th>Min</th><th>Sec</th><th colspan='2'>Date</th></tr>";
+        deftabbbody+="<tr><td>Set Time: </td><td><input id='defHr' type='number' style='width: 35px;height: 22px;font-size: 10px;' value='10'></td><td><input id='defMin' style='width: 35px;height: 22px;font-size: 10px;' type='number' value='00'></td>";
+        deftabbbody+="<td><input style='width: 35px;height: 22px;font-size: 10px;' id='defSec' type='number' value='00'></td><td colspan='2'><input style='width:90px;' id='defDat' type='text' value='00/00/0000'></td></tr></tbody></table>";
+        deftabbbody+="<button id='Defend' style='width: 35%;height: 30px; font-size: 12px; margin:10px;' class='regButton greenb'>Send Defense</button>";
+        var ndeftab="<li id='neardeftab' class='ui-state-default ui-corner-top' role='tab'>";
+        ndeftab+="<a href='#warNdefmanager' class='ui-tabs-anchor' role='presentation'>Near Def</a></li>";
+        var ndeftabbody="<div id='warNdefmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
+        ndeftabbody+=" role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >Nearest defense:</div>";
+        ndeftabbody+="<table><td>Choose city:</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='ndefx' type='number'> : <input style='width: 30px;height: 22px;font-size: 10px;' id='ndefy' type='number'></td>";
+        ndeftabbody+="<td>Showing For:</td><td id='asdfgh' class='coordblink shcitt'></td>";
+        ndeftabbody+="<td><button class='regButton greenb' id='ndefup' style='height:30px; width:70px;'>Update</button></td></table>";
+        ndeftabbody+="<div id='Ndefbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
+        var nofftab="<li id='nearofftab' class='ui-state-default ui-corner-top' role='tab'>";
+        nofftab+="<a href='#warNoffmanager' class='ui-tabs-anchor' role='presentation'>Offensive TS</a></li>";
+        var nofftabbody="<div id='warNoffmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
+        nofftabbody+=" role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >ALL Offensive TS:</div>";
+        nofftabbody+="<table><td colspan='2'> Continent(99 for navy):</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='noffx' type='number' value='0'>";
+        nofftabbody+="<td><button class='regButton greenb' id='noffup' style='height:30px; width:70px;'>Update</button></td>";
+        nofftabbody+="<td id='asdfg' style='width:10% !important;'></td><td><button class='regButton greenb' id='mailoff' style='height:30px; width:50px;'>Mail</button></td><td><input style='width: 100px;height: 22px;font-size: 10px;' id='mailname' type='text' value='Name_here;'></table>"
+        nofftabbody+="<div id='Noffbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
+        var expwin="<div id='ExpImp' style='width:250px;height:200px;' class='popUpBox ui-draggable'><div class=\"popUpBar\"><span class=\"ppspan\">Import/Export attack orders</span>";
+        expwin+="<button id=\"cfunkyX\" onclick=\"$('#ExpImp').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='expbody' class=\"popUpWindow\">";
+        expwin+="<textarea style='font-size:11px;width:97%;margin-left:1%;height:17%;' id='expstring' maxlength='200'></textarea><button id='applyExp' style='margin-left: 15px; width: 100px;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Apply</button></div></div>";
 
-        var tabs = $("#warcouncTabs").tabs();
+        var tabs=$("#warcouncTabs").tabs();
         var ul = tabs.find("ul");
         $(bosstab).appendTo(ul);
         $(attacktab).appendTo(ul);
@@ -581,12 +572,12 @@
         $("#warCounc").append(nearoffbut);
         $("#coordstochatGo1").after(addtoatt);
         $("#addtoAtt").after(addtodef);
-        $("#loccavwarconGo").css("right", "65%");
-        $("#idluniwarconGo").css("left", "34%");
+        $("#loccavwarconGo").css("right","65%");
+        $("#idluniwarconGo").css("left","34%");
         $("#idluniwarconGo").after(raidbossbut);
 
-        $("#defdeparture").change(function () {
-            if ($("#defdeparture").val() == 0) {
+        $("#defdeparture").change(function() {
+            if ($("#defdeparture").val()==0) {
                 $("#deftime").hide();
                 $("#dret").hide();
             } else {
@@ -597,23 +588,23 @@
 
         if (localStorage.getItem('attperc')) {
             $("#perc").val(localStorage.getItem('attperc'));
-        } else { $("#perc").val(99); }
+        } else {$("#perc").val(99);}
         if (localStorage.getItem('defperc')) {
             $("#defperc").val(localStorage.getItem('defperc'));
-        } else { $("#defperc").val(99); }
+        } else {$("#defperc").val(99);}
         if (localStorage.getItem('retcheck')) {
-            if (localStorage.getItem('retcheck') == 1) {
+            if (localStorage.getItem('retcheck')==1) {
                 $("#retcheck").prop("checked", true);
             }
-            if (localStorage.getItem('retcheck') == 0) {
+            if (localStorage.getItem('retcheck')==0) {
                 $("#retcheck").prop("checked", false);
             }
         }
         if (localStorage.getItem('dretcheck')) {
-            if (localStorage.getItem('rdetcheck') == 1) {
+            if (localStorage.getItem('rdetcheck')==1) {
                 $("#dretcheck").prop("checked", true);
             }
-            if (localStorage.getItem('dretcheck') == 0) {
+            if (localStorage.getItem('dretcheck')==0) {
                 $("#dretcheck").prop("checked", false);
             }
         }
@@ -625,8 +616,8 @@
         }
         $("#attackDat").datepicker();
         $("#defDat").datepicker();
-        $('#bosshuntab').click(function () {
-            if (beentoworld) {
+        $('#bosshuntab').click(function() {
+            if (beentoworld){
                 openbosswin();
             } else {
                 alert("Press World Button");
@@ -1925,15 +1916,6 @@
                 jQuery("#councillorXbutton")[0].click();
             }, 100);
             coonvalue();
-//            if (coonoff == 0) {
-//                coon = 1;
-//                $(this).removeClass('greenb');
-//                $(this).addClass('redb');
-//            } else {
-//                coon = 0;
-//                $(this).removeClass('redb');
-//                $(this).addClass('greenb');
-//            }
         });
         $("#fb2").click(function () {
             $('#tradePopUpBox').show();
@@ -3265,38 +3247,78 @@
                     var i = 0;
                     var home_loot = 0;
                     var km = [];
-                    for (var x in citytc) {
-                        home = Number(citytc[x]);
-                        home_loot += home * ttloot[i];
+                    for(var x in citytc) {
+                        home=Number(citytc[x]);
+                        home_loot+=home*ttloot[i];
                         km.push(home);
-                        i += 1;
+                        i+=1;
                         if (i === 17) { break; }
                     }
-                    var loot_95 = Math.ceil(total_loot * 0.95);
-                    if (home_loot > loot_95) {
-                        var option_numbers = Math.floor(home_loot / loot_95);
-                        if (option_numbers < count) {
+                    var loot_115=Math.ceil(total_loot*1.15);
+                    if(home_loot>loot_115){
+                        var option_numbers=Math.floor(home_loot/loot_115);
+                        if(option_numbers<count){
                             $("#WCcomcount").val(option_numbers);
-                        } else { $("#WCcomcount").val(count); }
-                        for (var i in km) {
-                            if (count === 1) {
-                                if (km[i] !== 0) {
-                                    $("#rval" + i).val(km[i]);
+                        }else{$("#WCcomcount").val(count);}
+                        var templ1=((home_loot/loot_115)*100)/option_numbers;
+                        var templ2=((templ1-100)/templ1)*100;
+                        for(var i in km){
+//                            if(count===1) {
+                                if(km[i]!==0){
+                                    var templ3=km[i]/option_numbers;
+                                    km[i]=Math.floor(templ3*(1-(templ2/100)));
+                                    $("#rval"+i).val(km[i]);
+                                    if(km[14]){$("#rval14").val("0");}
                                 }
-                            } else {
-                                if (km[i] !== 0) {
-                                    if (option_numbers < count) {
-                                        km[i] = Math.floor(km[i] / option_numbers);
-                                        $("#rval" + i).val(km[i]);
-                                        if (km[14]) { $("#rval14").val("0"); }
-                                    } else {
-                                        km[i] = Math.floor(km[i] / count);
-                                        $("#rval" + i).val(km[i]);
-                                        if (km[14]) { $("#rval14").val("0"); }
+                            // } else {
+                            //     if (km[i] !== 0) {
+                            //         if (option_numbers < count) {
+                            //             km[i] = Math.floor(km[i] / option_numbers);
+                            //             $("#rval" + i).val(km[i]);
+                            //             if (km[14]) { $("#rval14").val("0"); }
+                            //         } else {
+                            //             km[i] = Math.floor(km[i] / count);
+                            //             $("#rval" + i).val(km[i]);
+                            //             if (km[14]) { $("#rval14").val("0"); }
                                     }
+                                    carry_percentage(total_loot);
                                 }
-                            }
-                        }
+                            });
+                            $("#raidAll").click(function(){
+                                var i=0;
+                                var home_loot=0;
+                                var km=[];
+                                for(var x in citytc) {
+                                    home=Number(citytc[x]);
+                                    home_loot+=home*ttloot[i];
+                                    km.push(home);
+                                    i+=1;
+                                    if (i === 17) { break; }
+                                }
+                                var loot_95=Math.ceil(total_loot*0.95);
+                                if(home_loot>loot_95){
+                                    var option_numbers=Math.floor(home_loot/loot_95);
+                                    if(option_numbers<count){
+                                        $("#WCcomcount").val(option_numbers);
+                                    }else{$("#WCcomcount").val(count);}
+                                    for(var i in km){
+                                        if(count===1){
+                                            if(km[i]!==0){
+                                                $("#rval"+i).val(km[i]);
+                                            }
+                                        }else{
+                                            if(km[i]!==0){
+                                                if(option_numbers<count){
+                                                    km[i]=Math.floor(km[i]/option_numbers);
+                                                    $("#rval"+i).val(km[i]);
+                                                    if(km[14]){$("#rval14").val("0");}
+                                                }else{
+                                                    km[i]=Math.floor(km[i]/count);
+                                                    $("#rval"+i).val(km[i]);
+                                                    if(km[14]){$("#rval14").val("0");}
+                                                }
+                                            }}
+                                    }                                
                         carry_percentage(total_loot);
                     }
                 });
@@ -3320,7 +3342,7 @@
         });
     }
     //raiding part, cancel allt attack part
-    $(document).ready(function () {
+    $(function () {
         var newbutz = "<div style='float: left; margin-left: 2%;'><button id='newbuttonu' style='font-size:8px; padding: 4px; border-radius: 8px;' class='greenb shRnTr'>Recall(<90%)</button></div>";
         $("#totalTS").before(newbutz);
         $("#newbuttonu").click(function () {
@@ -4183,12 +4205,16 @@
             aa[73] = [1, 10];
             aa[1] = 1;
         }
-        res[14] = nearesthub;
-        res[15] = nearesthub;
-        res[5] = $("#woodin").val();
-        res[6] = $("#stonein").val();
-        res[7] = $("#ironin").val();
-        res[8] = $("#foodin").val();
+        res[14]=nearesthub;
+        res[15]=nearesthub;
+		res[5]=Math.max($("#woodin").val(), cotg.city.resources("wood")["wood_st"] * .50);
+        res[6]=Math.max($("#stonein").val(), cotg.city.resources("stone")["stone_st"] * .50);
+        res[7]=Math.max($("#ironin").val(), cotg.city.resources("iron")["iron_st"] * .50);
+        res[8]=Math.max($("#foodin").val(), cotg.city.resources("food")["food_st"] * .50);
+		res[19]=Math.max($("#woodin").val(), cotg.city.resources("wood")["wood_st"] * .75);
+        res[20]=Math.max($("#stonein").val(), cotg.city.resources("stone")["stone_st"] * .75);
+        res[21]=Math.max($("#ironin").val(), cotg.city.resources("iron")["iron_st"] * .75);
+        res[22]=Math.max($("#foodin").val(), cotg.city.resources("food")["food_st"] * .75);
         for (var k in res) {
             aa[28 + Number(k)] = res[k];
         }
