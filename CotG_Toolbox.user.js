@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Cotg Toolbox
 // @namespace https://github.com/watchmancole/CotG_Toolbox
-// @version 1.0.7
+// @version 1.0.8
 // @description A toolbox of helper tools for the game Crown of the Gods.
 // @author WatchmanCole, Dhruv, Cfunky
 // @match https://w17.crownofthegods.com
@@ -15,7 +15,7 @@
 
 (function () {
     // popup message for players when they open the game.
-    var tbVersion = "1.0.7";
+    var tbVersion = "1.0.8";
     $(document).ready(function () {
         var popwin = "<div id='HelloWorld' style='width:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">CotG_Toolbox v." + tbVersion + "</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> Cotg Toolbox (Cfunky + Dhruv's Raiding helper with fixes from WatchmanCole)</h4></span><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Adjusted troop raid count (2020-03-02)</li><li>Fixed so it would work on worlds 17, 18, 19 (2020-2-19)</li><li>Fixed Boss Gladiator from old GM Gordy (2020-2-19)</li><li>Renamed to CotG Toolbox (2020-2-19)</li></ul></span></div></div>";
         $("body").append(popwin);
@@ -98,7 +98,7 @@
     var splayers = { name: [], ally: [], cities: [] };
     var shrinec = [[]];
     var buildingdata;
-    var coofz;
+    var coonoff;
     var coon;
     //getting city lists
     $(document).ready(function () {
@@ -190,6 +190,8 @@
                             city.x = Number(poll2.city['x']);
                             city.y = Number(poll2.city['y']);
                             city.cont = Number(poll2.city['co']);
+                            coonoff = Number(poll2.city['coof']);
+                            coonvalue();
 //                            city.x = Number(poll2.city.cid % 65536);
 //                            city.y = Number((poll2.city.cid - city.x) / 65536);
 //                            city.cont = Number(Math.floor(city.x / 100) + 10 * Math.floor(city.y / 100));
@@ -1883,15 +1885,12 @@
     }
     //for on/off councilor
     function coonvalue() {
-        if (coofz == 1) {
-            coon = 0
+        if (coonoff == 1) {
             $("#fb1").removeClass('redb').addClass('greenb');
         }
-        if (coofz == 0) {
-            coon = 1
+        if (coonoff == 0) {
             $("#fb1").removeClass('greenb').addClass('redb');
         }
-        return coon;
     }
     //Buttons convert,fill,demolish,building count
     $(document).ready(function () {
@@ -1925,15 +1924,16 @@
             setTimeout(function () {
                 jQuery("#councillorXbutton")[0].click();
             }, 100);
-            if (coon == 0) {
-                coon = 1;
-                $(this).removeClass('greenb');
-                $(this).addClass('redb');
-            } else {
-                coon = 0;
-                $(this).removeClass('redb');
-                $(this).addClass('greenb');
-            }
+            coonvalue();
+//            if (coonoff == 0) {
+//                coon = 1;
+//                $(this).removeClass('greenb');
+//                $(this).addClass('redb');
+//            } else {
+//                coon = 0;
+//                $(this).removeClass('redb');
+//                $(this).addClass('greenb');
+//            }
         });
         $("#fb2").click(function () {
             $('#tradePopUpBox').show();
