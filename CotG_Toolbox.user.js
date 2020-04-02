@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name Cotg Toolbox
 // @namespace https://github.com/watchmancole/CotG_Toolbox
-// @version 1.0.9
+// @version 1.0.10
 // @description A toolbox of helper tools for the game Crown of the Gods.
 // @author WatchmanCole, Dhruv, Cfunky
-// @match https://w17.crownofthegods.com
-// @match https://w18.crownofthegods.com
+// @match https://w/*.crownofthegods.com
 // @match https://w19.crownofthegods.com
 // @include https://w/*.crownofthegods.com/World*
 // @grant none
@@ -15,7 +14,7 @@
 
 (function () {
     // popup message for players when they open the game.
-     // var tbVersion = "1.0.9";
+     // var tbVersion = "1.0.10";
     // $(function () {
     //     var popwin = "<div id='HelloWorld' style='width:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">CotG_Toolbox v." + tbVersion + "</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> Cotg Toolbox (Cfunky + Dhruv's Raiding helper with fixes from WatchmanCole)</h4></span><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Adjusted troop raid count (2020-03-02)</li><li>Fixed so it would work on worlds 17, 18, 19 (2020-2-19)</li><li>Fixed Boss Gladiator from old GM Gordy (2020-2-19)</li><li>Renamed to CotG Toolbox (2020-2-19)</li></ul></span></div></div>";
     //     $("body").append(popwin);
@@ -348,7 +347,7 @@
         return a;
     };
     //getting faith and research bonuses, attack,defence,boss tabs
-    $(document).ready(function() {
+    $(function() {
         jQuery.ajax({url: 'includes/gaLoy.php',type: 'POST',aysnc:false,
             success: function(data) {
                 var ldata=JSON.parse(data);
@@ -1884,7 +1883,7 @@
         }
     }
     //Buttons convert,fill,demolish,building count
-    $(document).ready(function () {
+    $(function () {
         var fourbutton = "<div id='fourbuttons' class='commandinndiv'><div><button id='fb1' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>ON/OFF</button><button id='fb2' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Refine</button><button id='fb3' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Raid</button><button id='fb4' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Demolish</button></div></div>";
         var bdcountbox = "<div id='currentBd'><div id='bdcountbar' class='queueBar'>";
         bdcountbox += "<div id='bdcountbut' class='tradeqarr2'><div></div></div><span class='qbspan'>Current Buildings</span>";
@@ -2188,7 +2187,7 @@
         $("#numbdleft").html(bdNumber);
     }
     //troop predictor part
-    $(document).ready(function () {
+    $(function () {
         //adding 2 elements into the html
         var incomingtabledata = $("#incomingsAttacksTable").children().children().children();
         $("#incomingsAttacksTable table thead tr th:nth-child(2)").width(140);
@@ -3539,7 +3538,7 @@
         }
     }
     // setting layouts
-    $(document).ready(function () {
+    $(function () {
         $("#citynotes").draggable({ handle: ".popUpBar", containment: "window", scroll: false });
         $('#citynotes').height('310px');
         $('#citynotes').width('495px');
