@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Cotg Toolbox
 // @namespace https://github.com/watchmancole/CotG_Toolbox
-// @version 1.0.10
+// @version 1.0.11
 // @description A toolbox of helper tools for the game Crown of the Gods.
 // @author WatchmanCole, Dhruv, Cfunky
 // @match https://w/*.crownofthegods.com
@@ -14,7 +14,7 @@
 
 (function () {
     // popup message for players when they open the game.
-     // var tbVersion = "1.0.10";
+     // var tbVersion = "1.0.11";
     // $(function () {
     //     var popwin = "<div id='HelloWorld' style='width:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">CotG_Toolbox v." + tbVersion + "</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> Cotg Toolbox (Cfunky + Dhruv's Raiding helper with fixes from WatchmanCole)</h4></span><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Adjusted troop raid count (2020-03-02)</li><li>Fixed so it would work on worlds 17, 18, 19 (2020-2-19)</li><li>Fixed Boss Gladiator from old GM Gordy (2020-2-19)</li><li>Renamed to CotG Toolbox (2020-2-19)</li></ul></span></div></div>";
     //     $("body").append(popwin);
@@ -3208,8 +3208,10 @@
                 if (type_dung === "Mountain") { loot1 = mountain_loot; }
                 else { loot1 = other_loot; }
                 var total_loot = Math.ceil((loot1[Number(dunglvl) - 1] * ((1 - Number(progress) / 100) + 1)) * 1.02);
-                $("#dungloctab").find(".addraiwc td:nth-child(4)").html("<button id='raid115' style='padding: 4px; border-radius: 8px;' class='greenb shRnTr'>115%</button>");
-                $("#dungloctab").find(".addraiwc td:nth-child(2)").html("<button id='raidAll' style='padding: 4px; border-radius: 8px;' class='greenb shRnTr'>Use All TS</button>");
+                $("#dungloctab").find(".addraiwc td:nth-child(4)").html("<button id='raid105' style='padding: 2px; border-radius: 4px;' class='greenb shRnTr'>105%</button>");
+                $("#dungloctab").find(".addraiwc td:nth-child(4)").append("<button id='raid115' style='padding: 2px; border-radius: 4px;' class='greenb shRnTr'>115%</button>");
+                $("#dungloctab").find(".addraiwc td:nth-child(2)").html("<button id='raidAll' style='padding: 2px; border-radius: 4px;' class='greenb shRnTr'>Use All TS</button>");
+
                 //              var troops = cotg.city.troops();
                 var home;
                 $("#raid115").click(function () {
@@ -3242,6 +3244,36 @@
                         carry_percentage(total_loot);
                     }
                 });
+                $("#raid105").click(function(){
+                    var i=0;
+                    var home_loot=0;
+                    var km=[];
+                    for(var x in citytc) {
+                        home=Number(citytc[x]);
+                        home_loot+=home*ttloot[i];
+                        km.push(home);
+                        i+=1;
+                        if (i === 17) { break; }
+                    }
+                    var loot_105=Math.ceil(total_loot*1.05);
+                    if(home_loot>loot_105){
+                        var option_numbers=Math.floor(home_loot/loot_105);
+                        if(option_numbers<count){
+                            $("#WCcomcount").val(option_numbers);
+                        }else{$("#WCcomcount").val(count);}
+                        var templ1=((home_loot/loot_105)*100)/option_numbers;
+                        var templ2=((templ1-100)/templ1)*100;
+                        for(var i in km){
+                            if(km[i]!==0){
+                                var templ3=km[i]/option_numbers;
+                                km[i]=Math.floor(templ3*(1-(templ2/100)));
+                                $("#rval"+i).val(km[i]);
+                                if(km[14]){$("#rval14").val("0");}
+                            }
+                        }
+                        carry_percentage(total_loot);
+                    }
+                });               
                 $("#raidAll").click(function () {
                     var i = 0;
                     var home_loot = 0;
