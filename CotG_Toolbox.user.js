@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name Cotg Toolbox
 // @namespace https://github.com/watchmancole/CotG_Toolbox
-// @version 1.0.11
+// @version 1.0.12
 // @description A toolbox of helper tools for the game Crown of the Gods.
 // @author WatchmanCole, Dhruv, Cfunky
-// @match https://w/*.crownofthegods.com
-// @match https://w19.crownofthegods.com
+// @match https://*.crownofthegods.com
+// @include https://*.crownofthegods.com/?s=*
 // @include https://w/*.crownofthegods.com/World*
 // @grant none
 // @updateURL https://raw.githubusercontent.com/watchmancole/CotG_Toolbox/master/CotG_Toolbox.user.js
@@ -14,7 +14,7 @@
 
 (function () {
     // popup message for players when they open the game.
-     // var tbVersion = "1.0.11";
+     // var tbVersion = "1.0.12";
     // $(function () {
     //     var popwin = "<div id='HelloWorld' style='width:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">CotG_Toolbox v." + tbVersion + "</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> Cotg Toolbox (Cfunky + Dhruv's Raiding helper with fixes from WatchmanCole)</h4></span><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Adjusted troop raid count (2020-03-02)</li><li>Fixed so it would work on worlds 17, 18, 19 (2020-2-19)</li><li>Fixed Boss Gladiator from old GM Gordy (2020-2-19)</li><li>Renamed to CotG Toolbox (2020-2-19)</li></ul></span></div></div>";
     //     $("body").append(popwin);
@@ -2622,7 +2622,7 @@
     //region view left side troop panel list
     function bossele() {
         var bopti = $("#cityplayerInfo div table tbody");
-        var bzTS = "<tr><td>Vanq:</td><td></td></tr><tr><td>R/T:</td><td></td></tr><tr><td>Ranger:</td><td></td></tr><tr><td>Triari:</td><td></td></tr><tr><td>Arb:</td><td></td></tr><tr><td>horse:</td><td></td></tr><tr><td>Sorc:</td><td></td></tr><tr><td>Druid:</td><td></td></tr>";
+        var bzTS = "<tr><td>Vanq:</td><td></td></tr><tr><td>R/T:</td><td></td></tr><tr><td>2R/1T:</td><td></td></tr><tr><td>Ranger:</td><td></td></tr><tr><td>Triari:</td><td></td></tr><tr><td>Arb:</td><td></td></tr><tr><td>horse:</td><td></td></tr><tr><td>Sorc:</td><td></td></tr><tr><td>Druid:</td><td></td></tr>";
         bzTS += "<tr><td>Prietess:</td><td></td></tr><tr><td>Praetor:</td><td></td></tr><tr><td>Scout:</td><td></td></tr><tr><td>Galley:</td><td></td></tr><tr><td>Stinger:</td><td></td></tr><tr><td>Warships:</td><td></td></tr>";
         bopti.append(bzTS);
     }
@@ -2708,21 +2708,24 @@
                 var praoptim = Math.ceil(optimalTSM / 2);
                 var sorcoptim = Math.ceil(optimalTSM * 2);
                 var RToptim = Math.ceil(optimalTSM / 3);
+                var R2T1optimR = Math.ceil(optimalTSM / 2);
+                var R2T1optimT = Math.ceil(R2T1optimR / 2);
                 $("#cityplayerInfo div table tbody tr:nth-child(5) td:nth-child(2)").text(optimalTSM);//vanq
                 $("#cityplayerInfo div table tbody tr:nth-child(6) td:nth-child(2)").text(RToptim + "/" + RToptim);//RT
-                $("#cityplayerInfo div table tbody tr:nth-child(7) td:nth-child(2)").text(optimalTSM);//ranger
-                $("#cityplayerInfo div table tbody tr:nth-child(8) td:nth-child(2)").text(praoptim);//triari
-                $("#cityplayerInfo div table tbody tr:nth-child(9) td:nth-child(2)").text(cavoptim);//arb
-                $("#cityplayerInfo div table tbody tr:nth-child(10) td:nth-child(2)").text(cavoptim);//horse
-                $("#cityplayerInfo div table tbody tr:nth-child(11) td:nth-child(2)").text(sorcoptim);//sorc
-                $("#cityplayerInfo div table tbody tr:nth-child(12) td:nth-child(2)").text(optimalTSM);//druid
-                $("#cityplayerInfo div table tbody tr:nth-child(13) td:nth-child(2)").text(optimalTSM);//priestess
-                $("#cityplayerInfo div table tbody tr:nth-child(14) td:nth-child(2)").text(praoptim);//pra
-                $("#cityplayerInfo div table tbody tr:nth-child(15) td:nth-child(2)").text("0");//scout
+                $("#cityplayerInfo div table tbody tr:nth-child(7) td:nth-child(2)").text(R2T1optimR + "/" + R2T1optimT);//2R1T
+                $("#cityplayerInfo div table tbody tr:nth-child(8) td:nth-child(2)").text(optimalTSM);//ranger
+                $("#cityplayerInfo div table tbody tr:nth-child(9) td:nth-child(2)").text(praoptim);//triari
+                $("#cityplayerInfo div table tbody tr:nth-child(10) td:nth-child(2)").text(cavoptim);//arb
+                $("#cityplayerInfo div table tbody tr:nth-child(11) td:nth-child(2)").text(cavoptim);//horse
+                $("#cityplayerInfo div table tbody tr:nth-child(12) td:nth-child(2)").text(sorcoptim);//sorc
+                $("#cityplayerInfo div table tbody tr:nth-child(13) td:nth-child(2)").text(optimalTSM);//druid
+                $("#cityplayerInfo div table tbody tr:nth-child(14) td:nth-child(2)").text(optimalTSM);//priestess
+                $("#cityplayerInfo div table tbody tr:nth-child(15) td:nth-child(2)").text(praoptim);//pra
+                $("#cityplayerInfo div table tbody tr:nth-child(16) td:nth-child(2)").text("0");//scout
 
-                $("#cityplayerInfo div table tbody tr:nth-child(16) td:nth-child(2)").text("0");
                 $("#cityplayerInfo div table tbody tr:nth-child(17) td:nth-child(2)").text("0");
                 $("#cityplayerInfo div table tbody tr:nth-child(18) td:nth-child(2)").text("0");
+                $("#cityplayerInfo div table tbody tr:nth-child(19) td:nth-child(2)").text("0");
             }
             if (type === "Hill Cavern" || type === "Forest Cavern") {
                 document.getElementById('raidDungGo').onclick = function () {
@@ -2746,21 +2749,25 @@
                 var praopti = Math.ceil(optimalTS / 2);
                 var sorcopti = Math.ceil(optimalTS * 2);
                 var RTopti = Math.ceil(optimalTS / 3);
+                var R2T1optimR = Math.ceil(optimalTS / 2);
+                var R2T1optimT = Math.ceil(R2T1optimR / 2);
+
                 $("#cityplayerInfo div table tbody tr:nth-child(5) td:nth-child(2)").text(optimalTS);//vanq
                 $("#cityplayerInfo div table tbody tr:nth-child(6) td:nth-child(2)").text(RTopti + "/" + RTopti);//RT
-                $("#cityplayerInfo div table tbody tr:nth-child(7) td:nth-child(2)").text(optimalTS);//ranger
-                $("#cityplayerInfo div table tbody tr:nth-child(8) td:nth-child(2)").text(praopti);//triari
-                $("#cityplayerInfo div table tbody tr:nth-child(9) td:nth-child(2)").text(cavopti);//arb
-                $("#cityplayerInfo div table tbody tr:nth-child(10) td:nth-child(2)").text(cavopti);//horse
-                $("#cityplayerInfo div table tbody tr:nth-child(11) td:nth-child(2)").text(sorcopti);//sorc
-                $("#cityplayerInfo div table tbody tr:nth-child(12) td:nth-child(2)").text(optimalTS);//druid
-                $("#cityplayerInfo div table tbody tr:nth-child(13) td:nth-child(2)").text(optimalTS);//priestess
-                $("#cityplayerInfo div table tbody tr:nth-child(14) td:nth-child(2)").text(praopti);//pra
-                $("#cityplayerInfo div table tbody tr:nth-child(15) td:nth-child(2)").text("0");//scout
+                $("#cityplayerInfo div table tbody tr:nth-child(7) td:nth-child(2)").text(R2T1optimR + "/" + R2T1optimT);//2R1T
+                $("#cityplayerInfo div table tbody tr:nth-child(8) td:nth-child(2)").text(optimalTS);//ranger
+                $("#cityplayerInfo div table tbody tr:nth-child(9) td:nth-child(2)").text(praopti);//triari
+                $("#cityplayerInfo div table tbody tr:nth-child(10) td:nth-child(2)").text(cavopti);//arb
+                $("#cityplayerInfo div table tbody tr:nth-child(11) td:nth-child(2)").text(cavopti);//horse
+                $("#cityplayerInfo div table tbody tr:nth-child(12) td:nth-child(2)").text(sorcopti);//sorc
+                $("#cityplayerInfo div table tbody tr:nth-child(13) td:nth-child(2)").text(optimalTS);//druid
+                $("#cityplayerInfo div table tbody tr:nth-child(14) td:nth-child(2)").text(optimalTS);//priestess
+                $("#cityplayerInfo div table tbody tr:nth-child(15) td:nth-child(2)").text(praopti);//pra
+                $("#cityplayerInfo div table tbody tr:nth-child(16) td:nth-child(2)").text("0");//scout
 
-                $("#cityplayerInfo div table tbody tr:nth-child(16) td:nth-child(2)").text("0");
                 $("#cityplayerInfo div table tbody tr:nth-child(17) td:nth-child(2)").text("0");
                 $("#cityplayerInfo div table tbody tr:nth-child(18) td:nth-child(2)").text("0");
+                $("#cityplayerInfo div table tbody tr:nth-child(19) td:nth-child(2)").text("0");
             }
         }
         if (dtype === "boss") {
