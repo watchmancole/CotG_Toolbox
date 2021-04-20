@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Cotg Toolbox
 // @namespace https://github.com/watchmancole/CotG_Toolbox
-// @version 1.0.13
+// @version 1.0.14
 // @description A toolbox of helper tools for the game Crown of the Gods.
 // @author WatchmanCole, Dhruv, Cfunky
 // @match https://*.crownofthegods.com
@@ -13,17 +13,15 @@
 // ==/UserScript==
 
 (function () {
-    // popup message for players when they open the game.
-     // var tbVersion = "1.0.13";
-    // $(function () {
-    //     var popwin = "<div id='HelloWorld' style='width:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">CotG_Toolbox v." + tbVersion + "</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> Cotg Toolbox (Cfunky + Dhruv's Raiding helper with fixes from WatchmanCole)</h4></span><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Adjusted troop raid count (2020-03-02)</li><li>Fixed so it would work on worlds 17, 18, 19 (2020-2-19)</li><li>Fixed Boss Gladiator from old GM Gordy (2020-2-19)</li><li>Renamed to CotG Toolbox (2020-2-19)</li></ul></span></div></div>";
-    //     $("body").append(popwin);
+    var changelog="<ul style='margin-left: 6%;'>";
+        //changelog+="<li>Reversed the raid percentages (2020-05-05)</li>";
+        changelog+="<li>Reversed the raid percentages (2020-05-05) </li>";
+        changelog+="<li>Adjusted troop raid count (2020-03-02)</li>";
+        changelog+="<li>Fixed so it would work on all worlds (2020-2-19)</li>";
+        changelog+="<li>Fixed Boss Gladiator from old GM Gordy (2020-2-19)</li>";
+        changelog+="<li>Renamed to CotG Toolbox so there would be no confusion with any other funky (2020-2-19)</li>";
+        changelog+="</ul>";
 
-    //     setTimeout(function () {
-    //         var options = {};
-    //         $('#HelloWorld').hide('drop', options, 2000);
-    //     }, 5000);
-    // });
     var ttts=[1,10,1,1,1,1,1,2,2,2,2,2,10,10,100,100,400,1]; //ts per unit
     var citytc;
     var message="Not enough TS to kill this boss!";
@@ -1884,7 +1882,7 @@
     }
     //Buttons convert,fill,demolish,building count
     $(function () {
-        var fourbutton = "<div id='fourbuttons' class='commandinndiv'><div><button id='fb1' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>ON/OFF</button><button id='fb2' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Refine</button><button id='fb3' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Raid</button><button id='fb4' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Demolish</button></div></div>";
+        var fourbutton = "<div id='fourbuttons' class='commandinndiv'><div><button id='fb1' style='height:26px; padding-left:5px; padding-right:5px; border-radius:4px ; font-size: 10px !important;' class='regButton greenb'>C ON/OFF</button><button id='fb2' style='height:26px; padding-left:5px; padding-right:5px; border-radius:4px ; font-size: 10px !important;' class='regButton greenb'>Refine</button><button id='fb3' style='height:26px; padding-left:5px; padding-right:5px; border-radius:4px ; font-size: 10px !important;' class='regButton greenb'>Raid</button><button id='fb4' style='height:26px; padding-left:5px; padding-right:5px; border-radius:5px ; font-size: 10px !important;' class='regButton greenb'>Demo</button><button id='fb5' style='height:26px; border-radius:4px ; font-size: 10px !important; padding-left:5px; padding-right:5px;' class='regButton greenb'>Toolbox</button></div></div>";
         var bdcountbox = "<div id='currentBd'><div id='bdcountbar' class='queueBar'>";
         bdcountbox += "<div id='bdcountbut' class='tradeqarr2'><div></div></div><span class='qbspan'>Current Buildings</span>";
         bdcountbox += "<div id='numbdleft' class='barRightFloat tooltipstered'>0</div>";
@@ -1937,6 +1935,11 @@
                 $(this).removeClass('redb');
                 $(this).addClass('greenb');
             }
+        });
+        $("#fb5").click(function () {
+            toolBoxWin();
+            $('#toolboxdiv').show();
+            jQuery("#ui-id-16")[0].click();
         });
         $("#centarrowNextDiv").click(function () {
             autodemoon = 0;
@@ -3215,7 +3218,7 @@
                 if (type_dung === "Mountain") { loot1 = mountain_loot; }
                 else { loot1 = other_loot; }
                 var total_loot = Math.ceil((loot1[Number(dunglvl) - 1] * ((1 - Number(progress) / 100) + 1)) * 1.02);
-                $("#dungloctab").find(".addraiwc td:nth-child(4)").html("<select id='raidSelect' style='padding: 2px; border-radius: 4px;' class='greenb shRnTr' autofocus><option value=.0>No Option Selected</option><option value='.95'>95%</option><option value='.97'>97%</option><Option value='1.00'>100%</option><option value='1.03'>103%</option><option value='1.05'>105%</option><option value='1.07'>107%</option><option value='1.10'>110%</option><option value='1.12'>112%</option><option value='1.15'>115%</option></select>");
+                $("#dungloctab").find(".addraiwc td:nth-child(4)").html("<select id='raidSelect' style='padding: 2px; border-radius: 4px;' class='greenb shRnTr' autofocus><option value='1.15'>115%</option><option value='1.12'>112%</option><Option value='1.10'>110%</option><option value='1.07'>107%</option><option value='1.05'>105%</option><option value='1.03'>103%</option><option value='1.00'>100%</option><option value='.97'>97%</option><option value='.95'>95%</option><option value=0>No Option Selected</option></select>");
 //                $("#dungloctab").find(".addraiwc td:nth-child(4)").html("<button id='raid105' style='padding: 2px; border-radius: 4px;' class='greenb shRnTr'>105%</button>");
 //                $("#dungloctab").find(".addraiwc td:nth-child(4)").append("<button id='raid115' style='padding: 2px; border-radius: 4px;' class='greenb shRnTr'>115%</button>");
                 $("#dungloctab").find(".addraiwc td:nth-child(2)").html("<button id='raidAll' style='padding: 2px; border-radius: 4px;' class='greenb shRnTr'>Use All TS</button>");
@@ -3767,26 +3770,26 @@
                 selectbuttsdf += '<option value="' + ww + '">2 sec vanq</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BGBGB##-----##----##BBGBGBB##----##----#BGBGBGBGB#----##----#BGBGBGBGB#----#######BGBGTGBGB#######S-PP#BGBGBGBGB#----##S--P#BGBGBGBGB#----##----##BBGBGBB##----##-----##BGBGB##-----##-BBBBB#######------##-BBBBBXJZ#---------##-BBBBB---#---------###BBBBB---#--------#####BBBB---#-------########################");
                 remarkdf.push("vanq"); notedf.push("256k @6 days");
-                troopcound.push([0, 0, 0, 0, 0, 300000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                resd.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 220000, 150000, 350000]);
+                troopcound.push([0, 256000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                resd.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 220000, 150000, 1700000]);
                 ww++;
                 selectbuttsdf += '<option value="' + ww + '">3 sec R/T</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##-----##-----##-S--##BBBBBBB##----##-MPJ#BGGGGGGGB#----##SSPX#BBBBBBBBB#----#######BGGGTGGGB#######----#BBBBBBBBB#----##BBB-#BGGGGGGGB#----##BGB-##BBBBBBB##----##BBBBB##-----##-----##BGGBGB#######------##BBBBBB---#---------##BGGGGB---#---------###BBBBB---#--------#####-------#-------########################");
                 remarkdf.push("R/T"); notedf.push("256k R/T @9 days");
                 troopcound.push([0, 0, 128000, 128000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                resd.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 220000, 150000, 350000]);
+                resd.push([0, 0, 0, 0, 1, 150000, 240000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 240000, 150000, 1200000]);
                 ww++;
                 selectbuttsdf += '<option value="' + ww + '">3/4 sec R/T</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##-----##-----##----##BBBBBBB##----##SMPJ#BGBGGGBGB#----##SSPX#BBBBBBBBB#----#######BGBGTGBGB#######----#BBBBBBBBB#----##BBB-#BGBGGGBGB#----##BGG-##BBBBBBB##----##BBBBB##-----##-----##BGGBGB#######------##BBBBBB---#---------##BGBGGB---#---------###BBBBB---#--------#####-------#-------########################");
                 remarkdf.push("R/T"); notedf.push("280k R/T @11+ days");
                 troopcound.push([0, 0, 140000, 140000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                resd.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 220000, 150000, 350000]);
+                resd.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 220000, 150000, 1200000]);
                 ww++;
                 selectbuttsdf += '<option value="' + ww + '">3 sec R/T</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BGBGB##-----##----##BBGBGBB##----##----#BGBGBGBGB#----##----#BGBGBGBGB#----#######BGBGTGBGB#######S-PP#BGBGBGBGB#----##S--P#BGBGBGBGB#----##----##GBGBGBG##----##-----##BGBGB##-----##-BBBBB#######------##-BBBBBXJZ#---------##-BBBBB---#---------###BBBBB---#--------#####BBBB---#-------########################");
                 remarkdf.push("R/T"); notedf.push("240k R/T");
-                troopcound.push([0, 0, 0, 0, 0, 0, 0, 0, 88300, 0, 0, 0, 0, 0, 354, 0, 0]);
-                resd.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 220000, 150000, 350000]);
+                troopcound.push([0, 0, 120000, 120000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                resd.push([0, 0, 0, 0, 1, 150000, 240000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 240000, 150000, 1200000]);
                 ww++;
                 selectbuttsdf += '<option value="' + ww + '">4 sec horse</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BEBEB##-----##----##EBEBEBE##----##----#BEBEBEBEB#----##----#BEBEBEBEB#----#######BEBETEBEB#######----#BEBEBEBEB#----##----#BEBEBEBEB#----##----##EBEBEBE##----##-----##BEBEB##-----##BBBBB-#######------##BEEEEB--J#---------##BBBBBB--X#---------###BEEEB-PP#--------#####BBBB-SS#-------########################");
@@ -4727,8 +4730,10 @@
             tstot = 0;
             var cid = this.id;
             var not = notes.notes[notes.id.indexOf(cid)];
-            var x = Number(cid % 65536);
-            var y = Number((cid - x) / 65536);
+            var x = Number(cid.x);
+            var y = Number(cid.y);
+//            var x = Number(cid % 65536);
+//            var y = Number((cid - x) / 65536);
             troopstab += "<tr data='" + cid + "'><td id='cnt" + cid + "' class='coordblink'>" + this.c + "</td><td style='width:150px;'>" + not + "</td><td class='coordblink shcitt' data='" + cid + "'>" + x + ":" + y + "</td>";
             thome = this.Arbalist_home;
             ttot = this.Arbalist_total;
@@ -5071,5 +5076,64 @@
                 $text = $col.text();
             return $text.replace('"', '""'); // escape double quotes
         }
+    }
+    function toolBoxWin() {
+        var  toolBoxWin="<div id='toolboxdiv' class='popUpBox ui-resizable ui-draggable' style='z-index:2002; width:700px !important;'>";
+        toolBoxWin+="<div class='ppbwinbgr ui-draggable' style='width:700px !important;'>";
+        toolBoxWin+="<div class='ppbwintop ui-resizable ui-draggable' style='width:700px !important;'></div>";
+        toolBoxWin+="<div class='ppbwincent ui-draggable' style='width:700px !important;'></div>";
+        toolBoxWin+="<div class='ppbwinbott ui-resizable ui-draggable' style='width:700px !important;'></div>"
+        toolBoxWin+="</div>";
+        toolBoxWin+="<div class='ppbwincontent ui-resizable ui-draggable' style='height:98%; width:700px !important;' >";
+        toolBoxWin+="<div class='popUpBar ui-resizable ui-draggable-handle'>";
+        toolBoxWin+="<span class='ppspan'>CotG Toolbox</span>";
+        toolBoxWin+="<button id='sumX' class='xbutton' onclick=$('#toolboxdiv').remove()>";
+        toolBoxWin+="<div id='xbuttondiv'> ";
+        toolBoxWin+="<div>";
+        toolBoxWin+="	<div id='centxbuttondiv'></div>";
+        toolBoxWin+="	</div>";
+        toolBoxWin+="</div>";
+        toolBoxWin+="</button>";
+        toolBoxWin+="</div>";
+        toolBoxWin+="<div id='toolboxpop' class='popUpWindow ui-resizable' style='width:95%; margin-left:auto;'>";
+        toolBoxWin+="<div id='toolboxmenu'><button id='changelogb' style='padding-left:5px; padding-right:5px;' class='regButton greenb'>Change Log</button></div>";
+        toolBoxWin+="<div id='toolboxbody'></div>";
+        toolBoxWin+="</div>";
+        toolBoxWin+="</div>";
+        toolBoxWin+="</div>";
+        $("body").append(toolBoxWin);
+        $("#toolboxdiv").draggable({ handle: ".popUpBar" , containment: "window", scroll: false});
+
+        $("#changelogb").click(function() {
+        $("#toolboxbody").html("");
+        $("#toolboxbody").html("<div>" + changelog + "</div>");
+    });
+    }
+
+    function toolBoxChangeLogWin(arg) {
+        var  toolBoxChangeLWin="<div id='toolboxchangeldiv' class='popUpBox ui-resizable ui-draggable' style='z-index:2002; width:700px !important;'>";
+        toolBoxChangeLWin+="<div class='ppbwinbgr ui-draggable' style='width:700px !important;'>";
+        toolBoxChangeLWin+="<div class='ppbwintop ui-resizable ui-draggable' style='width:700px !important;'></div>";
+        toolBoxChangeLWinn+="<div class='ppbwincent ui-draggable' style='width:700px !important;'></div>";
+        toolBoxChangeLWin+="<div class='ppbwinbott ui-resizable ui-draggable' style='width:700px !important;'></div>"
+        toolBoxChangeLWin+="</div>";
+        toolBoxChangeLWin+="<div class='ppbwincontent ui-resizable ui-draggable' style='height:98%; width:700px !important;' >";
+        toolBoxChangeLWin+="<div class='popUpBar ui-resizable ui-draggable-handle'>";
+        toolBoxChangeLWin+="<span class='ppspan'>Gfunky Change Log</span>";
+        toolBoxChangeLWin+="<button id='sumX' class='xbutton' onclick=$('#toolboxchangeldiv').remove()>";
+        toolBoxChangeLWin+="<div id='xbuttondiv'> ";
+        toolBoxChangeLWin+="<div>";
+        toolBoxChangeLWin+="	<div id='centxbuttondiv'></div>";
+        toolBoxChangeLWin+="	</div>";
+        toolBoxChangeLWin+="</div>";
+        toolBoxChangeLWin+="</button>";
+        toolBoxChangeLWin+="</div>";
+        toolBoxChangeLWin+="<div id='toolboxchangelbody' class='popUpWindow ui-resizable' style='width:95%; margin-left:auto;'>";
+        toolBoxChangeLWin+="<div ><iframe src='https://docs.google.com/spreadsheets/d/e/2PACX-1vTMPIJDZTRoB-z9fXJWRL6GzyVhA0xjHWHSeanepcmqHRne5BmRDhcAd5KUXZX2AhnWMMGE_v2U2dQm/pubhtml' style='height: 95%;width:95%;border-radius: 6px;border: 3px ridge #99805d;'></iframe></div>";
+        toolBoxChangeLWin+="</div>";
+        toolBoxChangeLWin+="</div>";
+        toolBoxChangeLWin+="</div>";
+        $("body").append(toolBoxChangeLWin);
+        $("#toolboxchangeldiv").draggable({ handle: ".popUpBar" , containment: "window", scroll: false});
     }
 })();
