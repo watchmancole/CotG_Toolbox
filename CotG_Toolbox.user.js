@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Cotg Toolbox
 // @namespace https://github.com/watchmancole/CotG_Toolbox
-// @version 1.0.14
+// @version 1.0.14.1
 // @description A toolbox of helper tools for the game Crown of the Gods.
 // @author WatchmanCole, Dhruv, Cfunky
 // @match https://*.crownofthegods.com
@@ -14,7 +14,7 @@
 
 (function () {
     var changelog="<ul style='margin-left: 6%;'>";
-        //changelog+="<li>Reversed the raid percentages (2020-05-05)</li>";
+        changelog+="<li>Added a 7 sec Praetor layout (2021-04-26)</li>";
         changelog+="<li>Reversed the raid percentages (2020-05-05) </li>";
         changelog+="<li>Adjusted troop raid count (2020-03-02)</li>";
         changelog+="<li>Fixed so it would work on all worlds (2020-2-19)</li>";
@@ -3777,19 +3777,19 @@
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##-----##-----##-S--##BBBBBBB##----##-MPJ#BGGGGGGGB#----##SSPX#BBBBBBBBB#----#######BGGGTGGGB#######----#BBBBBBBBB#----##BBB-#BGGGGGGGB#----##BGB-##BBBBBBB##----##BBBBB##-----##-----##BGGBGB#######------##BBBBBB---#---------##BGGGGB---#---------###BBBBB---#--------#####-------#-------########################");
                 remarkdf.push("R/T"); notedf.push("256k R/T @9 days");
                 troopcound.push([0, 0, 128000, 128000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                resd.push([0, 0, 0, 0, 1, 150000, 240000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 240000, 150000, 1200000]);
+                resd.push([0, 0, 0, 0, 1, 150000, 240000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 200000, 240000, 200000, 1200000]);
                 ww++;
                 selectbuttsdf += '<option value="' + ww + '">3/4 sec R/T</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##-----##-----##----##BBBBBBB##----##SMPJ#BGBGGGBGB#----##SSPX#BBBBBBBBB#----#######BGBGTGBGB#######----#BBBBBBBBB#----##BBB-#BGBGGGBGB#----##BGG-##BBBBBBB##----##BBBBB##-----##-----##BGGBGB#######------##BBBBBB---#---------##BGBGGB---#---------###BBBBB---#--------#####-------#-------########################");
                 remarkdf.push("R/T"); notedf.push("280k R/T @11+ days");
                 troopcound.push([0, 0, 140000, 140000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                resd.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 220000, 150000, 1200000]);
+                resd.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 200000, 240000, 200000, 1200000]);
                 ww++;
                 selectbuttsdf += '<option value="' + ww + '">3 sec R/T</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BGBGB##-----##----##BBGBGBB##----##----#BGBGBGBGB#----##----#BGBGBGBGB#----#######BGBGTGBGB#######S-PP#BGBGBGBGB#----##S--P#BGBGBGBGB#----##----##GBGBGBG##----##-----##BGBGB##-----##-BBBBB#######------##-BBBBBXJZ#---------##-BBBBB---#---------###BBBBB---#--------#####BBBB---#-------########################");
                 remarkdf.push("R/T"); notedf.push("240k R/T");
                 troopcound.push([0, 0, 120000, 120000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                resd.push([0, 0, 0, 0, 1, 150000, 240000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 240000, 150000, 1200000]);
+                resd.push([0, 0, 0, 0, 1, 150000, 240000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 200000, 240000, 200000, 1200000]);
                 ww++;
                 selectbuttsdf += '<option value="' + ww + '">4 sec horse</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BEBEB##-----##----##EBEBEBE##----##----#BEBEBEBEB#----##----#BEBEBEBEB#----#######BEBETEBEB#######----#BEBEBEBEB#----##----#BEBEBEBEB#----##----##EBEBEBE##----##-----##BEBEB##-----##BBBBB-#######------##BEEEEB--J#---------##BBBBBB--X#---------###BEEEB-PP#--------#####BBBB-SS#-------########################");
@@ -3814,6 +3814,12 @@
                 remarkdf.push("PRA"); notedf.push("110k pra @ 7+ days");
                 troopcound.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
                 resd.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 220000, 150000, 350000]);
+                ww++;
+                selectbuttsdf += '<option value="' + ww + '">7 sec praetor</option>';
+                layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BBZBB##-----##----##BZBZBZB##----##----#-BZBZBZB-#----##----#-BZBZBZB-#----#######-BZBTBZB-#######SSPX#-BZBZBZB-#----##M#PJ#-BZBZBZB-#----##S---##BZBZBZB##----##-----##BBZBB##-----##BBBBBB#######------##-BZBZBZB-#---------##BBZBZBZB-#---------###BZBZBZB-#--------#####BBBBBB-#-------########################");
+                remarkdf.push("Praetor"); notedf.push("122k pra @ 10 days");
+                troopcound.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 122000, 0, 0, 0, 0, 0, 0]);
+                resd.push([0, 0, 0, 0, 1, 150000, 240000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 200000, 240000, 200000, 1700000]);
                 ww++;
                 selectbuttsdf += '<option value="' + ww + '">7 sec pra</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BZBZB##-----##----##ZBZBZBZ##----##----#BZBZBZBZB#----##----#BZBZBZBZB#SS-X#######BZBZTZBZB#######----#BZBZBZBZB#J---##----#BZBZBZBZB#----##----##ZBZBZBZ##----##-----##BZBZB##-----##BBBBBB#######------##BBZBBB---#PP-------##BBBBBB---#P--------###BBBB----#--------#####BBB----#-------########################");
@@ -3953,6 +3959,13 @@
                 remarksl.push("praetors"); notesl.push("110000 praetors @ 7.5 days");
                 troopcounl.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 110000, 0, 0, 0, 0, 0, 0, 0]);
                 resl.push([0, 0, 0, 0, 1, 150000, 220000, 150000, 350000, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 150000, 220000, 150000, 350000]);
+                ll++;
+                selectbuttsl+='<option value="'+ll+'">7 sec praetors</option>';
+                layoutsl.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BBZBB##-----##----##BZBZBZB##----##----#-BZBZBZB-#----##----#-BZBZBZB-#----#######-BZBTBZB-#######SSPX#-BZBZBZB-#----##MDPJ#-BZBZBZB-#----##S---##BZBZBZB##----##-----##BBZBB##-----##-BBBBB#######------##-BZBZBZB-#---------##BBZBZBZB-#---------###BZBZBZB-#--------#####BBBBBB-#-------########################");
+                remarksl.push("praetors");
+				notesl.push("120000 praetors @ 9.7 days");
+                troopcounl.push([0,0,0,0,0,0,0,0,0,120000,0,0,0,0,0,0,0]);
+                resl.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,1700000]);
                 ll++;
                 selectbuttsl += '<option value="' + ll + '">4 sec horses</option>';
                 layoutsl.push("[ShareString.1.3]:########################BB---JX#-------#####BEBEB-PP#--------###-BEBEB-MS#---------##-BEBEB--H#---------##-BEBEB#######------##--ZBB##BEBEB##-----##----##EBEBEBE##----##----#BEBEBEBEB#----##----#BEBEBEBEB#----#######BEBETEBEB#######----#BEBEBEBEB#----##----#BEBEBEBEB#----##----##BBEBEBE##----##-----##BEBEB##-----##------#######------##---------#---------##---------#---------###--------#--------#####-------#-------########################");
